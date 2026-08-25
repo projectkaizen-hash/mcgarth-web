@@ -95,6 +95,10 @@ declare module "react" {
 
       "c-intro-about": CustomElement<{
         "data-scroll"?: string | boolean;
+      }>;
+
+      "c-intro-career": CustomElement<{
+        "data-scroll"?: string | boolean;
       }>; 
 
       "c-contact": CustomElement<{
