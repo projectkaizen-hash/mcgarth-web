@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
-import { sanityClient, projectsQuery } from "@/lib/sanity";
 import { Project } from "@/lib/types";
 
 export interface ProjectsModalRef {

@@ -8,16 +8,16 @@ import { ProjectBlock } from "@/lib/types"
 export function ProjectBlocks({ blocks }: { blocks: ProjectBlock[] }) {
   return (
     <>
-      {blocks.map((block, index) => {
+      {blocks.map((block) => {
         switch (block._type) {
           case "imageBlock":
-            return <FullImageBlock key={index} image={block.image} />;
+            return <FullImageBlock key={block._key} image={block.image} />;
           case "galleryBlock":
-            return <GalleryBlock key={index} images={block.images} />;
+            return <GalleryBlock key={block._key} images={block.images} />;
           case "contentBlock":
-            return <ContentBlock key={index} content={block.content} />;
+            return <ContentBlock key={block._key} content={block.content} />;
           case "progressBlock":
-            return <ProgressBar key={index} progress={block} />;
+            return <ProgressBar key={block._key} progress={block} />;
           default:
             return null;
         }

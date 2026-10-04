@@ -35,6 +35,7 @@ const PROJECT_FULL_PROJECTION = `{
   overview,
   coordinates,
   "blocks": blocks[]{
+    _key,
     _type,
     // imageBlock
     _type == "imageBlock" => {
@@ -134,6 +135,21 @@ export const featuredGalleryImagesQuery = `*[_type == "gallery" && isFeatured ==
   project->{ title, slug }
 }`;
 
+/**
+ * Projects selected for the home rotating gallery (Studio → Home settings
+ * singleton). Returns the same shape as `featuredGalleryImagesQuery` so the
+ * rotating section can swap sources without markup changes.
+ */
+export const homeRotatingProjectsQuery = `*[_id == "homeSettings"][0]{
+  "projects": rotatingProjects[]->{
+    "image": {
+      "asset": { "url": mainImage.asset->url },
+      "alt": title,
+      "title": title
+    }
+  }
+}`;
+
 export const jobVacanciesQuery = `*[_type == "jobVacancy" && isActive == true] | order(order asc, _createdAt asc) {
   _id,
   title,
@@ -166,6 +182,19 @@ export const projectsSummaryQuery = `*[_type == "project"] | order(order asc) {
   location,
   order,
   status
+}`;
+
+/** Lean projection for the contact-page map: markers and filters only. */
+export const projectsMapQuery = `*[_type == "project"] | order(order asc) {
+  _id,
+  "id": _id,
+  title,
+  "href": "/projects/" + slug.current,
+  "image": mainImage.asset->url,
+  location,
+  status,
+  type,
+  coordinates
 }`;
 
 /** Projection shared by the employee (all) and client (own) portal queries. */
