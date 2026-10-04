@@ -82,7 +82,7 @@ export default function Footer() {
               type="button"
               className="w-[72px]"
             >
-              <img src="https://shawalgroupbd.com/wp-content/uploads/2022/07/Rehab-Member.jpg" />
+              <img loading="lazy" decoding="async" src="https://shawalgroupbd.com/wp-content/uploads/2022/07/Rehab-Member.jpg" />
             </button>
           </li>
         </ul>

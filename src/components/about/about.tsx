@@ -1,4 +1,5 @@
 
+import Link from "next/link";
 import TeamSection from "./TeamSection";
 
 
@@ -740,7 +741,7 @@ export default function About() {
           className="c-full-project-card block mt-[220px]"
           data-astro-cid-wipjvxqe="true"
         >
-          <a
+          <Link
             href="/projects/rock-island"
             className="c-grid-container relative aspect-[8-4]"
             aria-label="Voir le projet: Rock Island"
@@ -803,7 +804,7 @@ export default function About() {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         </c-full-project-card>
       </div>
     </main>

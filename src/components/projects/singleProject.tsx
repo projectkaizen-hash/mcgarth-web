@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { useRef, useEffect, useState } from 'react';
 import { Project } from '@/lib/types';
 import { ProjectBlocks } from './ProjectBlocks';
@@ -161,7 +162,7 @@ export default function SingleProject({
           <c-intro-project className="c-intro-project pb-1 block" data-scroll="true">
             <div className="c-grid-container">
               <div className="relative z-5 col-span-2 flex grid-cols-subgrid flex-col pt-1 pb-0 xl:col-span-6">
-                <a
+                <Link
                   href="/projects"
                   className="c-appear-up-in c-underline-link c-appear-delay-1 hidden w-fit cursor-pointer items-center gap-x-[11px] xl:flex xl:flex-row"
                 >
@@ -188,7 +189,7 @@ export default function SingleProject({
                     </svg>
                   </span>
                   <span className="c-text-body font-medium">Projets</span>
-                </a>
+                </Link>
 
                 <dl className="c-appear-up-in c-appear-delay-2 mt-auto grid columns-2 gap-x-[20px] max-xl:hidden">
                   <div className="flex flex-row border-black py-[8px] xl:py-[12px]">
@@ -307,9 +308,9 @@ export default function SingleProject({
                   data-scroll-speed="-0.075"
                   style={{
                     aspectRatio: "1.499063085571518",
-                    ["--width" as any]: 2400,
-                    ["--height" as any]: 1601,
-                  }}
+                    "--width": 2400,
+                    "--height": 1601,
+                  } as React.CSSProperties}
                 >
                   <picture className="c-image_inner flex h-full w-full">
                     <img
@@ -404,9 +405,9 @@ export default function SingleProject({
                 data-scroll-speed="-0.075"
                 style={{
                   aspectRatio: "1.499063085571518",
-                  ["--width" as any]: 2400,
-                  ["--height" as any]: 1601,
-                }}
+                  "--width": 2400,
+                  "--height": 1601,
+                } as React.CSSProperties}
               >
                 <picture className="c-image_inner flex h-full w-full">
                   <img

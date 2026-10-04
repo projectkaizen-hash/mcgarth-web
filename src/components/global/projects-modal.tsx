@@ -13,6 +13,13 @@ const ProjectsModal = forwardRef<ProjectsModalRef>((props, ref) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
+  const openModal = () => {
+    setIsOpen(true);
+    document.body.classList.add('projects-is-open');
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  };
+
   useImperativeHandle(ref, () => ({
     openModal,
   }));
@@ -28,13 +35,6 @@ const ProjectsModal = forwardRef<ProjectsModalRef>((props, ref) => {
         console.error('Error fetching projects:', error);
       });
   }, []);
-
-  const openModal = () => {
-    setIsOpen(true);
-    document.body.classList.add('projects-is-open');
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-  };
 
   const closeModal = () => {
     setIsOpen(false);
@@ -79,7 +79,7 @@ const ProjectsModal = forwardRef<ProjectsModalRef>((props, ref) => {
                     onClick={closeModal}
                   >
                     <div className="c-projects-modal-item-image">
-                      <img src={project.image} alt={project.title} />
+                      <img loading="lazy" decoding="async" src={project.image} alt={project.title} />
                     </div>
                     <div className="c-projects-modal-item-content">
                       <p className="c-projects-modal-item-title">{project.title}</p>
@@ -108,7 +108,7 @@ const ProjectsModal = forwardRef<ProjectsModalRef>((props, ref) => {
                     onClick={closeModal}
                   >
                     <div className="c-projects-modal-item-image">
-                      <img src={project.image} alt={project.title} />
+                      <img loading="lazy" decoding="async" src={project.image} alt={project.title} />
                     </div>
                     <div className="c-projects-modal-item-content">
                       <p className="c-projects-modal-item-title">{project.title}</p>
@@ -137,7 +137,7 @@ const ProjectsModal = forwardRef<ProjectsModalRef>((props, ref) => {
                     onClick={closeModal}
                   >
                     <div className="c-projects-modal-item-image">
-                      <img src={project.image} alt={project.title} />
+                      <img loading="lazy" decoding="async" src={project.image} alt={project.title} />
                     </div>
                     <div className="c-projects-modal-item-content">
                       <p className="c-projects-modal-item-title">{project.title}</p>

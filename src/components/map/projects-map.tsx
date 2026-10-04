@@ -1,25 +1,22 @@
 'use client';
+import "mapbox-gl/dist/mapbox-gl.css";
 
 import { useEffect, useRef, useState, useMemo } from 'react';
 import mapboxgl from 'mapbox-gl';
-import Supercluster from 'supercluster';
 import { Project } from '@/lib/types';
 
 interface ProjectsMapProps {
   projects: Project[];
 }
 
-interface ClusterProperties {
-  cluster: boolean;
-  cluster_id: number;
-  point_count: number;
-  point_count_abbreviated: string;
-}
+// Inlined at build time (public env var), safe at module scope.
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
+const MAPBOX_TOKEN_ERROR =
+  'Mapbox access token is missing. Please set NEXT_PUBLIC_MAPBOX_TOKEN in .env.local';
 
 export default function ProjectsMap({ projects }: ProjectsMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [clusters, setClusters] = useState<Supercluster>();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [filters, setFilters] = useState({
     status: 'all',
@@ -27,7 +24,9 @@ export default function ProjectsMap({ projects }: ProjectsMapProps) {
     location: 'all',
   });
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [mapError, setMapError] = useState<string | null>(null);
+  const [mapError, setMapError] = useState<string | null>(() =>
+    MAPBOX_TOKEN ? null : MAPBOX_TOKEN_ERROR,
+  );
 
   const [geocodedLocations, setGeocodedLocations] = useState<Map<string, string>>(new Map());
 
@@ -96,13 +95,11 @@ export default function ProjectsMap({ projects }: ProjectsMapProps) {
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
-
-    if (!mapboxgl.accessToken) {
-      const errorMsg = 'Mapbox access token is missing. Please set NEXT_PUBLIC_MAPBOX_TOKEN in .env.local';
-      setMapError(errorMsg);
+    if (!MAPBOX_TOKEN) {
       return;
     }
+
+    mapboxgl.accessToken = MAPBOX_TOKEN;
 
     try {
       map.current = new mapboxgl.Map({
@@ -125,34 +122,12 @@ export default function ProjectsMap({ projects }: ProjectsMapProps) {
       return () => {
         map.current?.remove();
       };
-    } catch (error) {
-      setMapError('Failed to initialize map');
+    } catch {
+      // Report the init failure from a callback: updating state synchronously
+      // in the effect body would cascade renders (react-hooks/set-state-in-effect).
+      queueMicrotask(() => setMapError('Failed to initialize map'));
     }
   }, []);
-
-  useEffect(() => {
-    const superclusterInstance = new Supercluster({
-      radius: 60,
-      maxZoom: 16,
-    });
-
-    const points = projects
-      .filter(p => p.coordinates?.lat && p.coordinates?.lng)
-      .map(p => ({
-        type: 'Feature' as const,
-        properties: {
-          ...p,
-          cluster: false,
-        },
-        geometry: {
-          type: 'Point' as const,
-          coordinates: [p.coordinates!.lng, p.coordinates!.lat],
-        },
-      }));
-
-    superclusterInstance.load(points);
-    setClusters(superclusterInstance);
-  }, [projects]);
 
   const markerElementsRef = useRef<Map<string, HTMLElement>>(new Map());
 
@@ -334,7 +309,7 @@ export default function ProjectsMap({ projects }: ProjectsMapProps) {
             </svg>
           </button>
           {selectedProject.image && (
-            <img
+            <img loading="lazy" decoding="async"
               src={selectedProject.image}
               alt={selectedProject.title}
               className="w-full h-[300px] object-cover flex-shrink-0"

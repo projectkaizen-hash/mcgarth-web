@@ -7,20 +7,55 @@ interface ApplicationFormProps {
   jobVacancies: JobVacancy[];
 }
 
-export default function ApplicationForm({ jobVacancies }: ApplicationFormProps) {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    role: '',
-    message: ''
-  });
+type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
-  const handleSubmit = (e: React.FormEvent) => {
+const EMPTY_FORM = {
+  name: '',
+  email: '',
+  phone: '',
+  role: '',
+  message: ''
+};
+
+export default function ApplicationForm({ jobVacancies }: ApplicationFormProps) {
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [resume, setResume] = useState<File | null>(null);
+  const [state, setState] = useState<SubmitState>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Application submitted:', formData);
-    // Handle form submission here
-    alert('Application submitted successfully!');
+    if (state === 'submitting') return;
+    setState('submitting');
+    setErrorMsg('');
+
+    try {
+      const body = new FormData();
+      body.set('name', formData.name);
+      body.set('email', formData.email);
+      body.set('phone', formData.phone);
+      body.set('position', formData.role);
+      body.set('message', formData.message);
+      if (resume) body.set('resume', resume);
+
+      const res = await fetch('/api/applications', { method: 'POST', body });
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        throw new Error(data?.error ?? 'Something went wrong. Please try again.');
+      }
+
+      setFormData(EMPTY_FORM);
+      setResume(null);
+      setState('success');
+    } catch (err) {
+      setState('error');
+      setErrorMsg(
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please try again.'
+      );
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -101,7 +136,7 @@ export default function ApplicationForm({ jobVacancies }: ApplicationFormProps) 
                 >
                   <option value="">Select a position</option>
                   {jobVacancies.map((job) => (
-                    <option key={job._id} value={job.title}>
+                    <option key={job._id} value={job._id}>
                       {job.title} - {job.location}
                     </option>
                   ))}
@@ -132,18 +167,37 @@ export default function ApplicationForm({ jobVacancies }: ApplicationFormProps) 
                 type="file"
                 id="resume"
                 name="resume"
-                accept=".pdf,.doc,.docx"
+                accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 required
+                onChange={(e) => setResume(e.target.files?.[0] ?? null)}
                 className="c-form-file w-full border border-black bg-transparent px-2 py-2 rounded-md border-powder focus:outline-none focus:ring-2 focus:ring-black transition-all duration-300"
               />
-              <p className="c-text-small text-gray-600">Accepted formats: PDF, DOC, DOCX</p>
+              <p className="c-text-small text-gray-600">Accepted formats: PDF, DOC, DOCX (max 5 MB)</p>
             </div>
+
+            {state === 'success' && (
+              <p
+                role="status"
+                className="text-[14px] text-green-700 bg-green-50 border border-green-200 px-4 py-3 rounded-md"
+              >
+                Application submitted successfully! We&apos;ll be in touch.
+              </p>
+            )}
+            {state === 'error' && (
+              <p
+                role="alert"
+                className="text-[14px] text-red-600 bg-red-50 border border-red-200 px-4 py-3 rounded-md"
+              >
+                {errorMsg}
+              </p>
+            )}
 
             <div className="c-appear-up-in c-appear-delay-1">
               <button
                 type="submit"
+                disabled={state === 'submitting'}
                 data-astro-cid-n7iexiqw="true"
-                className="c-button c-text-cta c-button-m"
+                className="c-button c-text-cta c-button-m disabled:opacity-60"
               >
                 <span className="c-button-bg" data-astro-cid-n7iexiqw="true"></span>
                 <span className="c-button_inner" data-astro-cid-n7iexiqw="true">
@@ -151,7 +205,9 @@ export default function ApplicationForm({ jobVacancies }: ApplicationFormProps) 
                     <span className="c-bullet-hover" data-astro-cid-n7iexiqw="true"></span>
                   </span>
                   <span className="c-button_label" data-astro-cid-n7iexiqw="true">
-                    <span className="c-button_label-hover" data-astro-cid-n7iexiqw="true">Submit Application</span>
+                    <span className="c-button_label-hover" data-astro-cid-n7iexiqw="true">
+                      {state === 'submitting' ? 'Submitting…' : 'Submit Application'}
+                    </span>
                   </span>
                 </span>
               </button>

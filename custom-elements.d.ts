@@ -1,6 +1,6 @@
 import type { HTMLAttributes, DetailedHTMLProps } from "react";
 
-type CustomElement<T = {}> = DetailedHTMLProps<
+type CustomElement<T = object> = DetailedHTMLProps<
   HTMLAttributes<HTMLElement>,
   HTMLElement
 > &

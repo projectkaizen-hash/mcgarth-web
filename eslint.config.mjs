@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored legacy Astro bundles (minified, not project source):
+    "public/**",
+    // Generated test artifacts:
+    "coverage/**",
   ]),
 ]);
 

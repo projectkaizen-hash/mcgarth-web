@@ -1,22 +1,14 @@
-'use client';
-
-import { useEffect, useState } from "react";
+import { sanityClient, projectsSummaryQuery } from "@/lib/sanity";
 import Link from "next/link";
 import { Project } from "@/lib/types";
 
-export default function ContentModel() {
-  const [projects, setProjects] = useState<Project[]>([]);
-
-  useEffect(() => {
-    fetch('/api/projects')
-      .then(res => res.json())
-      .then((data: Project[]) => {
-        setProjects(data);
-      })
-      .catch(error => {
-        console.error('Error fetching projects:', error);
-      });
-  }, []);
+export default async function ContentModel() {
+  let projects: Project[] = [];
+  try {
+    projects = await sanityClient.fetch<Project[]>(projectsSummaryQuery);
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+  }
 
   const ongoingProjects = projects.filter(p => p.status === 'active' && p.href);
   const upcomingProjects = projects.filter(p => p.status === 'pending' && p.href);

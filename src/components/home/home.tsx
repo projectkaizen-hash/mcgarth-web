@@ -1,4 +1,5 @@
 
+import Link from "next/link";
 import FeaturedGallery from "./featuredGallery";
 
 export default function Home() {
@@ -170,9 +171,9 @@ export default function Home() {
                       type="button"
                       className="c-project-card-click-catcher absolute top-0 left-0 z-1 hidden h-full w-full"
                     >
-                      <span className="c-visually-hidden">Afficher plus d'informations</span>
+                      <span className="c-visually-hidden">Afficher plus d&apos;informations</span>
                     </button>
-                    <a className="c-appear-up-in" href="/projects/brill">
+                    <Link className="c-appear-up-in" href="/projects/brill">
                       <div className="c-aspect-ratio c-safari-image-radius relative flex w-full items-center overflow-hidden rounded-[6px] bg-current">
                         <div
                           className="c-image is-loaded w-full -cover c-aspect-ratio-overflow w-full"
@@ -213,7 +214,7 @@ export default function Home() {
                           </div>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   </article>
                   <article
                     is="c-project-card"
@@ -225,9 +226,9 @@ export default function Home() {
                       type="button"
                       className="c-project-card-click-catcher absolute top-0 left-0 z-1 hidden h-full w-full"
                     >
-                      <span className="c-visually-hidden">Afficher plus d'informations</span>
+                      <span className="c-visually-hidden">Afficher plus d&apos;informations</span>
                     </button>
-                    <a className="c-appear-up-in" href="/projects/maisonart">
+                    <Link className="c-appear-up-in" href="/projects/maisonart">
                       <div className="c-aspect-ratio c-safari-image-radius relative flex w-full items-center overflow-hidden rounded-[6px] bg-current">
                         <div
                           className="c-image is-loaded w-full -cover c-aspect-ratio-overflow w-full"
@@ -269,7 +270,7 @@ export default function Home() {
                           </div>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   </article>
                 </div>
               </section>
@@ -286,7 +287,7 @@ export default function Home() {
                       durability. Dive into our portfolio to envision your ideal home.
                     </p>
                     <div className="col-span-4 text-center xl:col-span-8">
-                      <a
+                      <Link
                         href="/projects"
                         rel=""
                         target="_self"
@@ -309,7 +310,7 @@ export default function Home() {
                             </span>
                           </span>
                         </span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -536,7 +537,7 @@ export default function Home() {
           className="c-full-project-card block mt-[220px]"
           data-astro-cid-wipjvxqe="true"
         >
-          <a
+          <Link
             href="/projects/rock-island"
             className="c-grid-container relative aspect-[8-4]"
             aria-label="Voir le projet: Rock Island"
@@ -599,7 +600,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         </c-full-project-card>
       </div>
     </main>

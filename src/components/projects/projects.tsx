@@ -98,9 +98,9 @@ export default async function Projects({ filter }: ProjectsProps = {}) {
                           data-scroll-speed="-0.033"
                           style={{
                             aspectRatio: project.aspectRatio,
-                            ["--width" as any]: project.width,
-                            ["--height" as any]: project.height,
-                          }}
+                            "--width": project.width,
+                            "--height": project.height,
+                          } as React.CSSProperties}
                         >
                           <picture className="c-image_inner flex h-full w-full">
 
@@ -207,9 +207,9 @@ export default async function Projects({ filter }: ProjectsProps = {}) {
                         data-scroll-speed="-0.05"
                         style={{
                           aspectRatio: "0.7679180887372014",
-                          ["--width" as any]: 450,
-                          ["--height" as any]: 586,
-                        }}
+                          "--width": 450,
+                          "--height": 586,
+                        } as React.CSSProperties}
                       >
                         <picture className="c-image_inner flex h-full w-full">
 

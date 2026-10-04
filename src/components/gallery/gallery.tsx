@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { sanityClient, galleryQuery } from '@/lib/sanity'
 import { GalleryCard } from '@/lib/types'
 
@@ -48,7 +49,7 @@ export default async function Gallery() {
                         className="c-project-card-click-catcher absolute top-0 left-0 z-1 hidden h-full w-full"
                       >
                         <span className="c-visually-hidden">
-                          Afficher plus d'informations
+                          Afficher plus d&apos;informations
                         </span>
                       </button>
                     )}
@@ -136,7 +137,7 @@ export default async function Gallery() {
 
               </div>
 
-              <a
+              <Link
                 href="/?target=home-gallery"
                 data-astro-cid-n7iexiqw="true"
                 className="c-button c-text-cta c-button-m c-gallery-scroller_button"
@@ -152,7 +153,7 @@ export default async function Gallery() {
                     </span>
                   </span>
                 </span>
-              </a>
+              </Link>
             </div>
           </c-gallery-scroller>
         </main>

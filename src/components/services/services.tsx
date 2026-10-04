@@ -1,4 +1,5 @@
 'use client';
+import Link from "next/link";
 
 export default function ServicesPage() {
   return (
@@ -409,7 +410,7 @@ export default function ServicesPage() {
         className="c-full-project-card block mt-[220px]"
         data-astro-cid-wipjvxqe="true"
       >
-        <a
+        <Link
           href="/projects/rock-island"
           className="c-grid-container relative aspect-[8-4]"
           aria-label="Voir le projet: Rock Island"
@@ -472,7 +473,7 @@ export default function ServicesPage() {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </c-full-project-card>
 
     </main >
