@@ -1,4 +1,4 @@
-import { sanityClient, projectsQuery } from "@/lib/sanity";
+import { sanityClient, projectsSummaryQuery } from "@/lib/sanity";
 import { Project } from "@/lib/types"; // keep the interface
 import { getProjectArticleClass } from '@/lib/utils'
 
@@ -8,7 +8,7 @@ interface ProjectsProps {
 
 export default async function Projects({ filter }: ProjectsProps = {}) {
 
-  const allProjects: Project[] = await sanityClient.fetch(projectsQuery);
+  const allProjects: Project[] = await sanityClient.fetch(projectsSummaryQuery);
   
   // Filter projects based on the filter prop
   const filteredProjects = filter 

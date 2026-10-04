@@ -1,4 +1,8 @@
-import { featuredGalleryImagesQuery, sanityClient } from "@/lib/sanity";
+import {
+  featuredGalleryImagesQuery,
+  homeRotatingProjectsQuery,
+  sanityClient,
+} from "@/lib/sanity";
 
 interface FeaturedImage {
   image: {
@@ -9,7 +13,17 @@ interface FeaturedImage {
 }
 
 export default async function FeaturedGallery() {
-  const featuredImages: FeaturedImage[] = await sanityClient.fetch(featuredGalleryImagesQuery)
+  // Projects picked in Studio → Home settings drive the rotating circle.
+  const settings = await sanityClient.fetch<{
+    projects?: FeaturedImage[] | null;
+  }>(homeRotatingProjectsQuery);
+  const selectedProjects = settings?.projects ?? [];
+
+  // Fall back to featured gallery images until projects are selected.
+  const featuredImages: FeaturedImage[] =
+    selectedProjects.length > 0
+      ? selectedProjects
+      : await sanityClient.fetch<FeaturedImage[]>(featuredGalleryImagesQuery);
 
   return (
     <div className="c-block-home-gallery">

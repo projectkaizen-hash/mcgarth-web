@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  homeRotatingProjectsQuery,
   portalProjectsQuery,
   projectBySlugQuery,
+  projectsMapQuery,
   projectsQuery,
   projectsSummaryQuery,
   userProjectsQuery,
@@ -50,6 +52,22 @@ describe("project query integrity", () => {
     expect(projectsSummaryQuery).not.toContain("blocks[");
     expect(projectsSummaryQuery).not.toContain("progressBlock");
     expect(projectsQuery).toContain("blocks");
+  });
+
+  it("map query stays light and exposes marker identity + coordinates", () => {
+    expect(projectsMapQuery).not.toContain("blocks[");
+    expect(projectsMapQuery).toContain('"id": _id');
+    expect(projectsMapQuery).toContain("coordinates");
+  });
+
+  it("block arrays project _key for React reconciliation", () => {
+    expect(projectsQuery).toMatch(/blocks\[\]\{\s*_key,/);
+  });
+
+  it("home rotating gallery reads the settings singleton by fixed id", () => {
+    expect(homeRotatingProjectsQuery).toContain('*[_id == "homeSettings"][0]');
+    expect(homeRotatingProjectsQuery).toContain("rotatingProjects[]->");
+    expect(homeRotatingProjectsQuery).toContain("mainImage.asset->url");
   });
 
   it("detail query filters by slug", () => {

@@ -10,21 +10,25 @@ export interface SanityImage {
 }
 
 export interface ImageBlock {
+  _key: string;
   _type: "imageBlock";
   image: SanityImage;
 }
 
 export interface GalleryBlock {
+  _key: string;
   _type: "galleryBlock";
   images: SanityImage[];
 }
 
 export interface ContentBlock {
+  _key: string;
   _type: "contentBlock";
   content: PortableTextBlock[];
 }
 
 export interface ProgressBlock {
+  _key: string;
   _type: "progressBlock";
   progress25?: ProgressImage[];
   progress50?: ProgressImage[];

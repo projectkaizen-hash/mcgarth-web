@@ -9,6 +9,7 @@ import CareerContent from "@/components/career/career";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/career" },
   title: "Careers",
   description:
     "Open positions at McGrath BD. Build your future with a team delivering sustainable homes across Bangladesh.",

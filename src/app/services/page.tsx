@@ -9,6 +9,7 @@ import ServicesContent from "@/components/services/services";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services" },
   title: "Services",
   description:
     "Residential construction services from McGrath BD — design, build and project delivery.",
