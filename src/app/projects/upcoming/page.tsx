@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 export const revalidate = 300; // ISR: refresh from Sanity every 5 minutes
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/projects/upcoming" },
   title: "Upcoming Projects",
   description:
     "McGrath BD residential projects coming soon.",

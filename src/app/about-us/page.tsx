@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 export const revalidate = 300; // ISR: refresh from Sanity every 5 minutes
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/about-us" },
   title: "About Us",
   description:
     "The story, team and values behind McGrath BD — residential construction in Bangladesh.",

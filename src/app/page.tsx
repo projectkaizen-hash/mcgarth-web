@@ -6,6 +6,12 @@ import Script from "next/script";
 import ContactModal from "@/components/global/contact-modal";
 import Footer from "@/components/global/footer";
 import HomeContent from "@/components/home/home";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default function Home() {
   return (
     <>

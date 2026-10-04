@@ -21,8 +21,19 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: "McGrath BD",
     url: siteUrl,
+    images: [
+      {
+        url: "/img/3.jpg",
+        width: 2400,
+        height: 1325,
+        alt: "McGrath BD residential construction project",
+      },
+    ],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/img/3.jpg"],
+  },
   robots: { index: true, follow: true },
 };
 
