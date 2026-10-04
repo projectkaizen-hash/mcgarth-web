@@ -5,7 +5,7 @@ declare module "next-auth" {
     role: "client" | "employee";
     projects?: { _id: string }[];
     jobTitle?: string;
-    profilePhoto?: any;
+    profilePhoto?: string;
   }
   interface Session {
     user: {
@@ -15,7 +15,7 @@ declare module "next-auth" {
       role: "client" | "employee";
       projects?: { _id: string }[];
       jobTitle?: string;
-      profilePhoto?: any;
+      profilePhoto?: string;
     };
   }
 }
@@ -26,6 +26,6 @@ declare module "next-auth/jwt" {
     role: "client" | "employee";
     projects?: { _id: string }[];
     jobTitle?: string;
-    profilePhoto?: any;
+    profilePhoto?: string;
   }
 }

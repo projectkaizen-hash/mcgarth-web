@@ -526,7 +526,7 @@ function SettingsContent() {
               </div>
               <div className="p-[12px] bg-[#f5f3f0] rounded-lg">
                 <div className="text-[9px] tracking-[0.12em] uppercase text-[rgba(20,20,21,0.45)] mb-[6px]">Role</div>
-                <div className="text-[13px] text-[#141415] capitalize font-medium">{(session.user as any)?.role || 'Client'}</div>
+                <div className="text-[13px] text-[#141415] capitalize font-medium">{session.user?.role || 'Client'}</div>
               </div>
             </div>
           </div>

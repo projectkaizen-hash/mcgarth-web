@@ -41,7 +41,7 @@ export default function Contact({ projects = [] }: ContactProps) {
                     aria-label="Get in touch with McGrath BD. We're here to help with your construction needs and answer any questions you may have about our projects and services."
                   >
                     <span className="c-heading-h3-indent-spacer">&nbsp;</span>
-                    Get in touch with McGrath BD. We're here to help with your
+                    Get in touch with McGrath BD. We&apos;re here to help with your
                     construction needs and answer any questions you may have
                     about our projects and services.
                   </h2>
@@ -99,7 +99,7 @@ export default function Contact({ projects = [] }: ContactProps) {
                   <div className="col-span-3 row-start-1 mb-[64px] xl:sticky xl:top-0 xl:col-span-4 xl:col-start-2 xl:mb-0 xl:py-[272px]">
                     <div className="w-full" data-scroll={true} data-scroll-offset="10%">
                       <h2 className="c-heading-h2 c-appear-blur-in">
-                        Let's build together
+                        Let&apos;s build together
                       </h2>
                     </div>
                   </div>
@@ -110,8 +110,8 @@ export default function Contact({ projects = [] }: ContactProps) {
                     data-scroll-offset="5%"
                   >
                     <p className="c-text-body-indent c-appear-blur-in c-appear-delay-1">
-                      Whether you're planning a new construction project or
-                      looking to partner with us, we'd love to hear from you.
+                      Whether you&apos;re planning a new construction project or
+                      looking to partner with us, we&apos;d love to hear from you.
                       Our team is ready to discuss your vision and bring it to
                       life.
                     </p>
@@ -156,7 +156,7 @@ export default function Contact({ projects = [] }: ContactProps) {
                         }}
                       >
                         <picture className="c-image_inner flex h-full w-full">
-                          <img
+                          <img loading="lazy" decoding="async"
                             src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=450&h=720&fit=crop"
                             alt="Office building"
                             className="c-image_img"

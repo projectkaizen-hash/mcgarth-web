@@ -12,10 +12,8 @@ export default function Career() {
   useEffect(() => {
     async function fetchJobVacancies() {
       try {
-        console.log('Fetching job vacancies from API...');
         const response = await fetch('/api/job-vacancies');
         const data = await response.json();
-        console.log('Fetched data:', data);
         setJobVacancies(data);
       } catch (error) {
         console.error('Error fetching job vacancies:', error);
@@ -53,7 +51,7 @@ export default function Career() {
                 </span>
                 <div className="col-span-2 mt-auto xl:col-span-3">
                   <p className="c-text-body-indent intro-text c-appear-blur-in c-appear-delay-2">
-                    We're always looking for talented individuals to join our team. If you're passionate about construction and want to build something meaningful, we'd love to hear from you.
+                    We&apos;re always looking for talented individuals to join our team. If you&apos;re passionate about construction and want to build something meaningful, we&apos;d love to hear from you.
                   </p>
                 </div>
               </div>
@@ -80,7 +78,7 @@ export default function Career() {
                     data-scroll-speed="-0.075"
                   >
                     <picture className="c-image_inner flex h-full w-full">
-                      <img
+                      <img loading="lazy" decoding="async"
                         src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=2400&h=1500&fit=crop"
                         alt="Construction team working"
                         className="c-image_img"
@@ -106,7 +104,7 @@ export default function Career() {
                       className="c-heading-h3-indented js-splitted col-span-4 xl:col-span-9"
                       aria-label="Join our team and build your career with McGrath BD. We're looking for passionate individuals who share our commitment to excellence and innovation in construction."
                     >
-                      <span className="c-heading-h3-indent-spacer">&nbsp;</span> Join our team and build your career with McGrath BD. We're looking for passionate individuals who share our commitment to excellence and innovation in construction.
+                      <span className="c-heading-h3-indent-spacer">&nbsp;</span> Join our team and build your career with McGrath BD. We&apos;re looking for passionate individuals who share our commitment to excellence and innovation in construction.
                     </h2>
                   </div>
                 </div>
@@ -179,7 +177,7 @@ export default function Career() {
                     <div className="c-appear-up-in c-appear-delay-2 flex aspect-[453/724] w-full items-center overflow-hidden rounded-lg" data-scroll>
                       <div className="c-image is-loaded w-full -cover -lazy-load h-[104%] w-full" style={{ aspectRatio: "0.625" }} data-scroll="true" data-scroll-speed="-0.05">
                         <picture className="c-image_inner flex h-full w-full">
-                          <img
+                          <img loading="lazy" decoding="async"
                             src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=450&h=720&fit=crop"
                             alt="Team collaboration"
                             className="c-image_img"
@@ -240,10 +238,10 @@ export default function Career() {
                   </h2>
                   <div className="c-p-no-split columns-1 xl:columns-2 gap-2 xl:col-span-6 col-span-3 col-start-2 xl:col-start-7 c-appear-blur-in c-appear-delay-1">
                     <p>
-                      Don't see a position that matches your skills? Send us your CV and we'll keep you in mind for future opportunities.
+                      Don&apos;t see a position that matches your skills? Send us your CV and we&apos;ll keep you in mind for future opportunities.
                     </p>
                     <p>
-                      We're always looking for talented individuals to join our team. If you're passionate about construction and want to build something meaningful, we'd love to hear from you.
+                      We&apos;re always looking for talented individuals to join our team. If you&apos;re passionate about construction and want to build something meaningful, we&apos;d love to hear from you.
                     </p>
                   </div>
                   <div className="xl:col-span-6 col-span-3 col-start-2 xl:col-start-7 mt-8">

@@ -33,8 +33,11 @@ const MILESTONES = [
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function getImages(progress: ProjectProgress | undefined, key: string): ProgressImage[] {
-  return (progress as any)?.[key] ?? [];
+function getImages(
+  progress: ProjectProgress | undefined,
+  key: keyof ProjectProgress,
+): ProgressImage[] {
+  return progress?.[key] ?? [];
 }
 
 function getHighestReached(progress: ProjectProgress | undefined): number | null {

@@ -1,14 +1,49 @@
-// app/api/analytics/route.ts
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+import { getGaAnalyticsConfig, serverEnv } from "@/lib/env";
+import type { GoogleServiceAccountCredentials } from "@/lib/env";
 
-const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY!);
-const client = new BetaAnalyticsDataClient({ credentials });
-const property = `properties/${process.env.GA4_PROPERTY_ID}`;
 const MetricAggregation = { TOTAL: 1 } as const;
 
-export async function GET() {
+/**
+ * Employee-only: mirrors the authorization pattern used by
+ * `/api/all-projects` (401 without a session, 403 for non-employees).
+ */
+async function requireEmployee(req: NextRequest) {
+  const token = await getToken({
+    req,
+    secret: serverEnv.nextAuthSecret,
+  });
+
+  if (!token) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (token.role !== "employee") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  return null;
+}
+
+/** Lazily initialised so a missing env fails the request, not the import. */
+let analyticsClient: BetaAnalyticsDataClient | null = null;
+function getAnalyticsClient(
+  credentials: GoogleServiceAccountCredentials,
+): BetaAnalyticsDataClient {
+  if (!analyticsClient) {
+    analyticsClient = new BetaAnalyticsDataClient({ credentials });
+  }
+  return analyticsClient;
+}
+
+export async function GET(req: NextRequest) {
+  const denied = await requireEmployee(req);
+  if (denied) return denied;
+
   try {
+    const { credentials, property } = getGaAnalyticsConfig();
+    const client = getAnalyticsClient(credentials);
+
     const [
       realtimeReport,
       summaryReport,
@@ -16,7 +51,6 @@ export async function GET() {
       pagesReport,
       eventsReport,
     ] = await Promise.all([
-
       client.runRealtimeReport({
         property,
         metrics: [{ name: "activeUsers" }],
@@ -31,7 +65,7 @@ export async function GET() {
           { name: "newUsers" },
           { name: "averageSessionDuration" },
         ],
-        metricAggregations: [MetricAggregation.TOTAL as any],
+        metricAggregations: [MetricAggregation.TOTAL],
       }),
 
       client.runReport({
@@ -40,7 +74,7 @@ export async function GET() {
         dimensions: [{ name: "country" }, { name: "countryId" }],
         metrics: [{ name: "activeUsers" }],
         orderBys: [{ desc: true, metric: { metricName: "activeUsers" } }],
-        metricAggregations: [MetricAggregation.TOTAL as any],
+        metricAggregations: [MetricAggregation.TOTAL],
         limit: 10,
       }),
 
@@ -67,22 +101,22 @@ export async function GET() {
     const totalsRow = summaryReport[0].totals?.[0]?.metricValues;
 
     const activeUsers = parseInt(
-      summaryRow?.[0]?.value ?? totalsRow?.[0]?.value ?? "0"
+      summaryRow?.[0]?.value ?? totalsRow?.[0]?.value ?? "0",
     );
     const newUsers = parseInt(
-      summaryRow?.[1]?.value ?? totalsRow?.[1]?.value ?? "0"
+      summaryRow?.[1]?.value ?? totalsRow?.[1]?.value ?? "0",
     );
     const avgSessionDuration = parseFloat(
-      summaryRow?.[2]?.value ?? totalsRow?.[2]?.value ?? "0"
+      summaryRow?.[2]?.value ?? totalsRow?.[2]?.value ?? "0",
     );
 
     const realtimeActiveUsers =
       realtimeReport[0].rows?.reduce(
         (sum, r) => sum + parseInt(r.metricValues?.[0]?.value ?? "0"),
-        0
+        0,
       ) ??
       parseInt(
-        realtimeReport[0].totals?.[0]?.metricValues?.[0]?.value ?? "0"
+        realtimeReport[0].totals?.[0]?.metricValues?.[0]?.value ?? "0",
       );
 
     const result = {
@@ -109,10 +143,11 @@ export async function GET() {
     };
 
     return NextResponse.json(result);
-  } catch (err: any) {
-    console.error("GA4 error:", err.message, "| code:", err.code);
+  } catch (err) {
+    // Log details server-side only; never leak them to the client.
+    console.error("GA4 report failed:", err);
     return NextResponse.json(
-      { error: err.message, code: err.code ?? null },
+      { error: "Failed to load analytics" },
       { status: 500 },
     );
   }

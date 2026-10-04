@@ -52,11 +52,11 @@ export default function Analytics() {
       const json = await res.json()
       setData({ ...json, loading: false, error: null })
       setLastUpdated(new Date())
-    } catch (error: any) {
+    } catch (error) {
       setData((prev) => ({
         ...prev,
         loading: false,
-        error: error.message ?? 'Failed to fetch analytics data.',
+        error: error instanceof Error ? error.message : 'Failed to fetch analytics data.',
       }))
     }
   }

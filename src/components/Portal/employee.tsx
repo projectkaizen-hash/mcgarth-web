@@ -316,11 +316,11 @@ function AnalyticsContent() {
       const json = await res.json()
       setData({ ...json, loading: false, error: null })
       setLastUpdated(new Date())
-    } catch (error: any) {
+    } catch (error) {
       setData((prev) => ({
         ...prev,
         loading: false,
-        error: error.message ?? 'Failed to fetch analytics data.',
+        error: error instanceof Error ? error.message : 'Failed to fetch analytics data.',
       }))
     }
   }
@@ -580,9 +580,9 @@ function SettingsContent() {
         <div className="space-y-[20px]">
           <div className="flex items-center gap-[20px]">
             <div className="relative">
-              {(session.user as any)?.profilePhoto ? (
-                <img
-                  src={(session.user as any).profilePhoto}
+              {session.user?.profilePhoto ? (
+                <img loading="lazy" decoding="async"
+                  src={session.user.profilePhoto}
                   alt={session.user?.name || 'Profile'}
                   className="w-[72px] h-[72px] rounded-full object-cover flex-shrink-0 shadow-lg"
                 />
@@ -614,7 +614,7 @@ function SettingsContent() {
               </div>
               <div className="p-[12px] bg-[#f5f3f0] rounded-lg">
                 <div className="text-[9px] tracking-[0.12em] uppercase text-[rgba(20,20,21,0.45)] mb-[6px]">Job Title</div>
-                <div className="text-[13px] text-[#141415] capitalize font-medium">{(session.user as any)?.jobTitle || 'N/A'}</div>
+                <div className="text-[13px] text-[#141415] capitalize font-medium">{session.user?.jobTitle || 'N/A'}</div>
               </div>
             </div>
           </div>

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -35,7 +36,7 @@ export default function LoginPage() {
       {/* LEFT */}
       <div className="login-left">
         <div className="flex items-center gap-2 mb-6">
-          <a
+          <Link
             href="/"
             className="w-fit cursor-pointer flex items-center gap-[11px]"
           >
@@ -62,7 +63,7 @@ export default function LoginPage() {
               </svg>
             </span>
             <span className="c-text-body font-medium">Home</span>
-          </a>
+          </Link>
         </div>
 
         <h1 className="text-[26px] font-medium text-[#111] m-0 mb-1">
@@ -122,7 +123,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-[11px] text-[#bbb] text-center mt-3">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <a href="#" className="text-[#777] font-medium no-underline">
             Request access
           </a>

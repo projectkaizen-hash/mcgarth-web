@@ -1,49 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { sanityServerClient } from "@/lib/sanity-server";
-
-const userProjectsQuery = `
-  *[_type == "project" && _id in $ids] | order(order asc) {
-    _id,
-    title,
-    "href": "/projects/" + slug.current,
-    "image": mainImage.asset->url,
-    description,
-    year,
-    type,
-    aspectRatio,
-    "width": mainImage.asset->metadata.dimensions.width,
-    "height": mainImage.asset->metadata.dimensions.height,
-    location,
-    startDate,
-    deadline,
-    order,
-    "brochure": brochure.asset->url,
-    "inspectionReport": inspectionReport.asset->url,
-    "progressBlocks": coalesce(blocks[_type == "progressBlock"] {
-      "progress25": coalesce(count(progress25), 0),
-      "progress50": coalesce(count(progress50), 0),
-      "progress75": coalesce(count(progress75), 0),
-      "progress100": coalesce(count(progress100), 0)
-    }, [])
-  }
-`;
+import { userProjectsQuery } from "@/lib/sanity";
+import { serverEnv } from "@/lib/env";
 
 export async function GET(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const token = await getToken({
+    req,
+    secret: serverEnv.nextAuthSecret,
+  });
 
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const ids: string[] = (
-    (token.projects as { _id: string }[]) ?? []
-  ).map((p) => p._id);
+  const ids: string[] = (token.projects ?? []).map((p) => p._id);
 
   if (!ids.length) {
     return NextResponse.json([]);
   }
 
-  const projects = await sanityServerClient.fetch(userProjectsQuery, { ids });
-  return NextResponse.json(projects);
+  try {
+    const projects = await sanityServerClient.fetch(userProjectsQuery, { ids });
+    return NextResponse.json(projects);
+  } catch (error) {
+    console.error("Error fetching user projects:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch projects" },
+      { status: 500 },
+    );
+  }
 }

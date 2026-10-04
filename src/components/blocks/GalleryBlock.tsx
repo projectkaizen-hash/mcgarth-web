@@ -25,9 +25,9 @@ export function GalleryBlock({ images }: { images: SanityImage[] }) {
                     data-scroll-speed="-0.025"
                     style={{
                       aspectRatio: img.aspectRatio,
-                      ["--width" as any]: img.width,
-                      ["--height" as any]: img.height,
-                    }}
+                      "--width": img.width,
+                      "--height": img.height,
+                    } as React.CSSProperties}
                   >
                     <picture className="c-image_inner flex h-full w-full">
                       <img

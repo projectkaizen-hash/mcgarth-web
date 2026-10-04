@@ -4,10 +4,11 @@ export const sanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "x37u2l54",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2024-01-01",
-  useCdn: false,
+  useCdn: true,
 });
 
-export const projectsQuery = `*[_type == "project"] | order(order asc) {
+/** Full projection shared by the detail query and the list query. */
+const PROJECT_FULL_PROJECTION = `{
   _id,
   title,
   "href": "/projects/" + slug.current,
@@ -83,6 +84,24 @@ export const projectsQuery = `*[_type == "project"] | order(order asc) {
   }
 }`;
 
+export const projectsQuery = `*[_type == "project"] | order(order asc) ${PROJECT_FULL_PROJECTION}`;
+
+/** Single document by slug — detail pages no longer fetch the whole list. */
+export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug][0] ${PROJECT_FULL_PROJECTION}`;
+
+/** Lightweight SEO fields for generateMetadata. */
+export const projectSeoQuery = `*[_type == "project" && slug.current == $slug][0] {
+  title,
+  description,
+  year,
+  type,
+  location,
+  "image": mainImage.asset->url
+}`;
+
+/** All slugs for generateStaticParams. */
+export const projectSlugsQuery = `*[_type == "project" && defined(slug.current)][].slug.current`;
+
 export const employeesQuery = `*[_type == "employee"] | order(name asc) {
   _id,
   name,
@@ -127,3 +146,61 @@ export const jobVacanciesQuery = `*[_type == "jobVacancy" && isActive == true] |
   isActive,
   order
 }`;
+
+/**
+ * Shared projections for list/modal/portal views. Keep these in sync with
+ * the canonical `projectsQuery` above — they intentionally select fewer
+ * fields (no blocks/galleries) so list endpoints stay cheap.
+ */
+export const projectsSummaryQuery = `*[_type == "project"] | order(order asc) {
+  _id,
+  title,
+  "href": "/projects/" + slug.current,
+  "image": mainImage.asset->url,
+  description,
+  year,
+  type,
+  aspectRatio,
+  "width": mainImage.asset->metadata.dimensions.width,
+  "height": mainImage.asset->metadata.dimensions.height,
+  location,
+  order,
+  status
+}`;
+
+/** Projection shared by the employee (all) and client (own) portal queries. */
+const PROJECT_PORTAL_PROJECTION = `{
+  _id,
+  title,
+  "href": "/projects/" + slug.current,
+  "image": mainImage.asset->url,
+  description,
+  year,
+  type,
+  aspectRatio,
+  "width": mainImage.asset->metadata.dimensions.width,
+  "height": mainImage.asset->metadata.dimensions.height,
+  location,
+  startDate,
+  deadline,
+  order,
+  status,
+  "brochure": brochure.asset->url,
+  "inspectionReport": inspectionReports[0].file.asset->url,
+  "inspectionReports": inspectionReports[]{
+    title,
+    "file": file.asset->url
+  },
+  "progressBlocks": coalesce(blocks[_type == "progressBlock"] {
+    "progress25": coalesce(count(progress25), 0),
+    "progress50": coalesce(count(progress50), 0),
+    "progress75": coalesce(count(progress75), 0),
+    "progress100": coalesce(count(progress100), 0)
+  }, [])
+}`;
+
+/** Every project for the employee portal. */
+export const portalProjectsQuery = `*[_type == "project"] | order(order asc) ${PROJECT_PORTAL_PROJECTION}`;
+
+/** Only the signed-in client's assigned projects. */
+export const userProjectsQuery = `*[_type == "project" && _id in $ids] | order(order asc) ${PROJECT_PORTAL_PROJECTION}`;

@@ -12,9 +12,9 @@ export function FullImageBlock({ image }: { image: SanityImage }) {
             data-scroll-speed="-0.075"
             style={{
               aspectRatio: image.aspectRatio,
-              ["--width" as any]: image.width,
-              ["--height" as any]: image.height,
-            }}
+              "--width": image.width,
+              "--height": image.height,
+            } as React.CSSProperties}
           >
             <picture className="c-image_inner flex h-full w-full">
               <img

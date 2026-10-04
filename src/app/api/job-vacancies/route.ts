@@ -1,3 +1,5 @@
+export const revalidate = 60; // cache public JSON for 60s
+
 import { NextResponse } from 'next/server';
 import { sanityClient, jobVacanciesQuery } from '@/lib/sanity';
 
