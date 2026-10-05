@@ -19,3 +19,18 @@ export function getProjectArticleClass(order: number, total: number): string {
       return `${base} xl:col-span-6 mt-[104px] xl:mt-[240px]`
   }
 }
+
+/**
+ * The status section a project belongs to (ongoing / upcoming / completed).
+ * Detail pages number projects within this section so each section counts
+ * 01..N individually instead of against the global list. Projects without
+ * a status fall back to the full list.
+ */
+export function getProjectSection<T extends { status?: string }>(
+  project: T,
+  allProjects: T[],
+): T[] {
+  if (!project.status) return allProjects;
+  const section = allProjects.filter((p) => p.status === project.status);
+  return section.length > 0 ? section : allProjects;
+}

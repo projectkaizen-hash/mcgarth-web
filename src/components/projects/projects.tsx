@@ -76,7 +76,7 @@ export default async function Projects({ filter }: ProjectsProps = {}) {
                   <article
                     key={project._id}
                     is="c-project-card"
-                    className={getProjectArticleClass(Number(project.order), projects.length)}
+                    className={getProjectArticleClass(index + 1, projects.length)}
 
                     data-scroll="true"
                     data-scroll-offset="10%"

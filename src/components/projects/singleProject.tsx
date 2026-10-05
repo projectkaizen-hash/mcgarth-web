@@ -418,6 +418,7 @@ export default function SingleProject({
           </div>
         </div>
 
+        {allProjects.length > 1 && (
         <c-full-project-card
           className="c-full-project-card block mt-[220px]"
           data-astro-cid-wipjvxqe="true"
@@ -499,6 +500,7 @@ export default function SingleProject({
             </div>
           </a>
         </c-full-project-card>
+        )}
       </div>
     </main>
   );

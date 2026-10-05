@@ -113,4 +113,8 @@ describe("project query integrity", () => {
     expect(projectsQuery).toContain('"href": "/projects/" + slug.current');
     expect(projectBySlugQuery).toContain('"href": "/projects/" + slug.current');
   });
+
+  it("summary query carries status for section numbering", () => {
+    expect(projectsSummaryQuery).toContain("status");
+  });
 });

@@ -11,6 +11,7 @@ import {
   projectsSummaryQuery,
 } from "@/lib/sanity";
 import { Project } from "@/lib/types";
+import { getProjectSection } from "@/lib/utils";
 import SingleProjectContent from "@/components/projects/singleProject";
 import { notFound } from "next/navigation";
 
@@ -31,7 +32,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   if (!project) notFound();
 
-  const projectIndex = allProjects.findIndex(
+  // Number each project inside its own status section (ongoing / upcoming /
+  // completed) so every section counts 01..N individually instead of against
+  // the global list, and cycle "Next Project" through that same section.
+  const sectionProjects = getProjectSection(project, allProjects);
+  const projectIndex = sectionProjects.findIndex(
     (p) => p.href === `/projects/${projectSlug}`,
   );
 
@@ -42,7 +47,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <SingleProjectContent
         project={project}
         index={projectIndex}
-        allProjects={allProjects}
+        allProjects={sectionProjects}
       />
       <Footer />
       <script
