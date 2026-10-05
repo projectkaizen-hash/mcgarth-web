@@ -6,6 +6,12 @@ interface ProjectsProps {
   filter?: 'ongoing' | 'upcoming' | 'completed';
 }
 
+const CATEGORY_TITLES: Record<NonNullable<ProjectsProps['filter']>, string> = {
+  ongoing: 'Ongoing Projects',
+  upcoming: 'Upcoming Projects',
+  completed: 'Completed Projects',
+};
+
 export default async function Projects({ filter }: ProjectsProps = {}) {
 
   const allProjects: Project[] = await sanityClient.fetch(projectsSummaryQuery);
@@ -22,6 +28,7 @@ export default async function Projects({ filter }: ProjectsProps = {}) {
   
   const projects = filteredProjects;
   const projectLength = `(${projects.length})`;
+  const pageTitle = filter ? CATEGORY_TITLES[filter] : 'Projects';
 
   return (
     <main id="swup" className="transition-fade">
@@ -35,8 +42,8 @@ export default async function Projects({ filter }: ProjectsProps = {}) {
           >
             <div className="c-grid-container overflow-visible">
               <div className="c-hero-title_wrapper overflow-visible flex-column col-span-4 flex items-end justify-end xl:col-span-11 pt-8 xl:text-center xl:col-span-12! xl:col-start-1!">
-                <h1 className="c-heading-h1 js-splitted" aria-label={`Projects ${projectLength}`}>
-                  Projects <br className="xl:hidden" />{projectLength}
+                <h1 className="c-heading-h1 js-splitted" aria-label={`${pageTitle} ${projectLength}`}>
+                  {pageTitle} <br className="xl:hidden" />{projectLength}
                 </h1>
               </div>
               <div className="false"></div>
@@ -69,14 +76,20 @@ export default async function Projects({ filter }: ProjectsProps = {}) {
             </c-block-title>
 
             <section className="block">
-              <h2 className="sr-only">Projects</h2>
+              <h2 className="sr-only">{pageTitle}</h2>
               <div className="c-grid-container">
 
                 {projects.map((project, index) => (
                   <article
                     key={project._id}
                     is="c-project-card"
-                    className={getProjectArticleClass(index + 1, projects.length)}
+                    className={
+                      filter
+                        ? `c-project-card relative false block col-span-4 xl:col-span-12${
+                            index > 0 ? ' mt-[104px] xl:mt-[240px]' : ''
+                          }`
+                        : getProjectArticleClass(index + 1, projects.length)
+                    }
 
                     data-scroll="true"
                     data-scroll-offset="10%"
