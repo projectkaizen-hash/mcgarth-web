@@ -80,6 +80,10 @@ export interface Project {
   landArea: string;
   numberOfFloors: string;
   totalUnits: number;
+  apartmentSize?: string;
+  numberOfParking?: number;
+  handOverDate?: string;
+  rajukApprovalNo?: string;
   status?: 'pending' | 'active' | 'completed' | 'on-hold';
   brochure?: string;
   inspectionReports?: InspectionReport[];

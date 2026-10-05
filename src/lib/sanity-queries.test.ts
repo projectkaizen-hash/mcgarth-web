@@ -92,6 +92,21 @@ describe("project query integrity", () => {
     expect(projectBySlugQuery).toContain("slug.current == $slug");
   });
 
+  it("detail query exposes every single-product spec field", () => {
+    for (const field of [
+      "landArea",
+      "apartmentSize",
+      "totalUnits",
+      "numberOfParking",
+      "numberOfFloors",
+      "handOverDate",
+      "rajukApprovalNo",
+      "location",
+    ]) {
+      expect(projectBySlugQuery).toContain(field);
+    }
+  });
+
   it("list and detail queries share one projection", () => {
     // Both derive from PROJECT_FULL_PROJECTION, so field drift between the
     // list and detail views is structurally impossible.
