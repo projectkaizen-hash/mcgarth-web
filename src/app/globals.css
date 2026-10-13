@@ -4039,22 +4039,27 @@ mux-player::part(control-bar) {
     transform: translate3d(0, calc(-100px * max(1 - 0.42, 0)), 0);
   }
 }
-.c-logo-text-only.appear.is-inview.down .c-logo-text-only__path {
+.c-logo-text-only.appear.is-inview.down .c-logo-text-only__path,
+.is-inview .c-logo-text-only.appear.down .c-logo-text-only__path {
   transition: transform 0.9s var(--ease-out-cubic);
+  transform: translate3d(0, 0, 0) !important;
+}
+
+#home-logo.c-logo-text-only.appear.is-inview.down .c-logo-text-only__path {
   &:nth-child(1),
   &:nth-child(7) {
-    transform: translate3d(0, calc(-100px * max(var(--progress) - 0.42, 0)), 0);
+    transform: translate3d(0, calc(-100px * max(var(--progress, 0) - 0.42, 0)), 0) !important;
   }
   &:nth-child(2),
   &:nth-child(6) {
-    transform: translate3d(0, calc(-100px * max(var(--progress) - 0.28, 0)), 0);
+    transform: translate3d(0, calc(-100px * max(var(--progress, 0) - 0.28, 0)), 0) !important;
   }
   &:nth-child(3),
   &:nth-child(5) {
-    transform: translate3d(0, calc(-100px * max(var(--progress) - 0.14, 0)), 0);
+    transform: translate3d(0, calc(-100px * max(var(--progress, 0) - 0.14, 0)), 0) !important;
   }
   &:nth-child(4) {
-    transform: translate3d(0, calc(-100px * max(var(--progress) - 0, 0)), 0);
+    transform: translate3d(0, calc(-100px * max(var(--progress, 0) - 0, 0)), 0) !important;
   }
 }
 .c-logo-text-only.appear {
@@ -4080,9 +4085,24 @@ mux-player::part(control-bar) {
   &:nth-child(4) {
     transform: translate3d(0, 55px, 0);
   }
-  .is-inview & {
-    transition: transform 1.2s var(--ease-out-expo);
-    transform: none !important;
+}
+.c-logo-text-only.appear.is-inview.up .c-logo-text-only__path,
+.is-inview .c-logo-text-only.appear.up .c-logo-text-only__path {
+  transition: transform 0.9s var(--ease-out-cubic);
+  &:nth-child(1),
+  &:nth-child(7) {
+    transform: translate3d(0, calc(100px * max(var(--progress, 0) - 0.42, 0)), 0);
+  }
+  &:nth-child(2),
+  &:nth-child(6) {
+    transform: translate3d(0, calc(100px * max(var(--progress, 0) - 0.28, 0)), 0);
+  }
+  &:nth-child(3),
+  &:nth-child(5) {
+    transform: translate3d(0, calc(100px * max(var(--progress, 0) - 0.14, 0)), 0);
+  }
+  &:nth-child(4) {
+    transform: translate3d(0, calc(100px * max(var(--progress, 0) - 0, 0)), 0);
   }
 }
 @layer components {
@@ -4128,7 +4148,7 @@ mux-player::part(control-bar) {
     }
   }
   .c-site-header.is-hidden {
-    transform: translateY(-100%);
+    transform: none !important;
   }
   .c-site-header.menu-is-open,
   html.keyboard-user .c-site-header:has(:focus-within) {
@@ -4161,9 +4181,12 @@ mux-player::part(control-bar) {
     right: 16px;
     width: 72px;
     height: 72px;
-    color: white;
+    color: #141415;
     z-index: 2;
 
+  }
+  .dark .c-site-header_nav-close {
+    color: white;
   }
   .c-site-header_nav-close:before,
   .c-site-header_nav-close:after {
@@ -4221,11 +4244,19 @@ mux-player::part(control-bar) {
       }
     }
   }
-  .c-site-header_nav-item:not(:nth-last-child(2)) {
+  .c-theme-switcher {
+    font-size: 0.8125rem !important;
+  }
+  .c-site-header_nav-item:not(:last-child) {
     .c-site-header_nav-link:after {
       @media (min-width: 1024px) {
         content: ",";
       }
+    }
+  }
+  .c-site-header_nav-item:last-child {
+    .c-site-header_nav-link:after {
+      content: none;
     }
   }
   .c-site-header-burger {
@@ -4613,28 +4644,97 @@ body.projects-is-open .js-projects-stg {
 }
 
 /* WhatsApp Floating Button */
-.c-whatsapp-button {
+/* Floating actions: go-to-bottom, WhatsApp, go-to-top (bounce in sync) */
+.c-floating-actions {
   position: fixed;
   bottom: 24px;
   right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1000;
+  animation: whatsapp-bounce 2s ease-in-out infinite;
+}
+
+.c-whatsapp-button {
   width: 56px;
   height: 56px;
-  background-color: #25D366;
+  background: none;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-  animation: whatsapp-bounce 2s ease-in-out infinite;
+  box-shadow: none;
+  overflow: hidden;
+  transition: transform 0.3s ease-out;
+}
+
+.c-scroll-button,
+.c-scroll-spacer {
+  width: 40px;
+  height: 40px;
+  flex: none;
+}
+
+.c-scroll-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #fff;
+  mix-blend-mode: difference;
+  cursor: pointer;
+}
+
+.c-scroll-button svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  transition: transform 0.3s ease-out;
+}
+
+/* Down: button sits below WhatsApp; Up: button moves above and arrow flips */
+.c-scroll-button.is-down {
+  order: 3;
+}
+
+.c-scroll-button.is-up {
+  order: 1;
+}
+
+.c-scroll-button.is-up svg {
+  transform: rotate(180deg);
+}
+
+.c-scroll-spacer {
+  order: 1;
+}
+
+.c-whatsapp-button {
+  order: 2;
+}
+
+.c-floating-actions:has(.c-scroll-button.is-up) .c-scroll-spacer {
+  order: 3;
+}
+
+/* Stroke-draw Lottie icon: the animation's green disc is 70.4% of its
+   500x500 comp, so render at 142% of the button to align it with the
+   button's circular edge (overflow is clipped by the button). */
+.c-whatsapp-button_icon {
+  display: block;
+  flex: none;
+  width: 142%;
+  height: 142%;
 }
 
 .c-whatsapp-button:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  animation: none;
 }
 
 @keyframes whatsapp-bounce {
@@ -4647,9 +4747,11 @@ body.projects-is-open .js-projects-stg {
 }
 
 @media (max-width: 1023px) {
-  .c-whatsapp-button {
+  .c-floating-actions {
     bottom: 16px;
     right: 16px;
+  }
+  .c-whatsapp-button {
     width: 48px;
     height: 48px;
   }

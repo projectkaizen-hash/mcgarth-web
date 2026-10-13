@@ -124,4 +124,9 @@ declare module "react" {
   }
 }
 
+declare module "*.css" {
+  const content: any;
+  export default content;
+}
+
 export {};

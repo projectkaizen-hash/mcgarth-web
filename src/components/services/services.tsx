@@ -1,5 +1,7 @@
 'use client';
 import Link from "next/link";
+import { getProjectTimeline } from "@/lib/utils";
+import { ProjectArea } from "@/components/ui/project-area";
 
 export default function ServicesPage() {
   return (
@@ -316,7 +318,7 @@ export default function ServicesPage() {
                       rel="noopener noreferrer"
                       className="ease-in-quart hover:ease-out-quad hover:text-blue col-span-6 transition-colors duration-300"
                     >
-                      116 Kazi Nazrul Islam
+                      SEL Rose-N-Dale Suite: 1101, 116 Kazi Nazrul Islam
                       Avenue, Ramna, Dhaka-1217
                     </a>
                   </div>
@@ -331,12 +333,10 @@ export default function ServicesPage() {
                   <div className="col-span-4 grid grid-cols-subgrid xl:col-span-9 xl:col-start-4">
                     <h2
                       className="c-heading-h3-indented js-splitted col-span-4 xl:col-span-9"
-                      aria-label="McGrath builds sustainable homes where quality, design and innovation meet. From single-family homes to large-scale residential projects, each construction reflects our expertise and commitment. Explore our achievements and find inspiration for your future home."
+                      aria-label="Creating spaces for the way people live. Our projects range from individual residential developments to larger multi-unit communities. Each one presents a different opportunity, but the objective remains the same: to create homes that balance thoughtful design, practical living and quality construction. Explore our portfolio and discover the projects behind the McGrath name."
                     >
-                      <span className="c-heading-h3-indent-spacer">&nbsp;</span> McGrath builds sustainable homes
-                      where quality, design and innovation meet. From single-family homes to large-scale residential
-                      projects, each construction reflects our expertise and commitment. Explore our achievements and
-                      find inspiration for your future home.
+                      <span className="c-heading-h3-indent-spacer">&nbsp;</span> Creating spaces for the way people live.
+                      Our projects range from individual residential developments to larger multi-unit communities. Each one presents a different opportunity, but the objective remains the same: to create homes that balance thoughtful design, practical living and quality construction. Explore our portfolio and discover the projects behind the McGrath name.
                     </h2>
                   </div>
                 </div>
@@ -354,9 +354,8 @@ export default function ServicesPage() {
                   </div>
                   <div className="col-span-2 row-start-2 xl:col-span-3 xl:col-start-5 xl:row-start-1 xl:mt-auto" data-scroll data-scroll-offset="5%">
                     <p className="c-text-body-indent c-appear-blur-in c-appear-delay-1">
-                      With a tradition rooted in knowledge, McGrath builds sustainable homes with passion and rigor.
-                      Commitment, quality and innovation are the cornerstones of each and every one of our projects.
-                      Discover our history, our values and our expertise in residential construction.
+                      Creating spaces for the way people live.
+                      Our projects range from individual residential developments to larger multi-unit communities. Each one presents a different opportunity, but the objective remains the same: to create homes that balance thoughtful design, practical living and quality construction. Explore our portfolio and discover the projects behind the McGrath name.
                     </p>
                     <div className="c-appear-up-in c-appear-delay-2 mt-[20px] xl:mt-[22px]">
 
@@ -463,12 +462,18 @@ export default function ServicesPage() {
                 <div className="flex max-w-[80%] flex-col w-fit xl:w-[320px]">
                   <p className="c-text-subtitle flex w-full justify-end border-b pb-[8px]">
                     <span className="flex-grow">Jovada Garden</span>
-                    <span className="w-1 border-l"></span><span>03</span>
+                    <span className="w-1 border-l"></span>
+                    <ProjectArea fallback="Gulshan, Dhaka" />
                   </p>
-                  <p className="c-text-small pt-[8px]">
-                    <i className="mr-0.5">2020</i>
-                    <span className="pr-1.5 xl:pr-0">New House</span>
-                  </p>
+                  {(() => {
+                    const timeline = getProjectTimeline({ status: 'completed', year: 2020 });
+                    return (
+                      <p className="c-text-small flex w-full justify-between items-baseline pt-[8px]">
+                        <i className="not-italic">{timeline.label}</i>
+                        <span className="pr-1.5 xl:pr-0">{timeline.value}</span>
+                      </p>
+                    );
+                  })()}
                 </div>
               </div>
             </div>

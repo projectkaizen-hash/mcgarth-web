@@ -5,6 +5,8 @@ import { useRef, useEffect, useState } from 'react';
 import { Project } from '@/lib/types';
 import { ProjectBlocks } from './ProjectBlocks';
 import ProgressBar from '../blocks/ProgressBar';
+import { getProjectTimeline } from '@/lib/utils';
+import { ProjectArea } from '@/components/ui/project-area';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -35,6 +37,52 @@ function computeCountdown(deadline: string) {
 
 function toDigits(value: number): number[] {
   return String(value).padStart(2, '0').split('').map(Number);
+}
+
+const MONTH_NAMES = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+/** Format a Sanity date (YYYY-MM-DD) without timezone shifting. */
+function formatDateLabel(isoDate?: string | null): string | undefined {
+  if (!isoDate) return isoDate ?? undefined;
+  const [year, month, day] = isoDate.split('-');
+  const monthName = month ? MONTH_NAMES[Number(month) - 1] : undefined;
+  if (!year || !monthName || !day) return isoDate;
+  return `${Number(day)} ${monthName} ${year}`;
+}
+
+/** One spec row shared by the desktop and mobile detail lists. */
+function SpecRow({
+  label,
+  value,
+  first = false,
+}: {
+  label: string;
+  value: string | number;
+  first?: boolean;
+}) {
+  return (
+    <div
+      className={`flex flex-row py-[8px] xl:py-[12px] ${
+        first ? 'border-black' : 'border-t-[1px] border-black'
+      }`}
+    >
+      <dt className="c-text-body w-1/2 font-medium">{label}</dt>
+      <dd className="c-text-body w-1/2 font-light">{value}</dd>
+    </div>
+  );
 }
 
 // ── DigitWindow ───────────────────────────────────────────────────────────────
@@ -82,6 +130,17 @@ export default function SingleProject({
 }) {
   const nextProjectIndex = (index + 1) % allProjects.length;
   const nextProject = allProjects[nextProjectIndex];
+
+  const specRows = [
+    { label: 'Land Size', value: project.landArea },
+    { label: 'Apartment Size', value: project.apartmentSize },
+    { label: 'Number of Apartments', value: project.totalUnits },
+    { label: 'Number of Parking', value: project.numberOfParking },
+    { label: 'Number of Floors', value: project.numberOfFloors },
+    { label: 'Hand Over Date', value: formatDateLabel(project.handOverDate) },
+    { label: 'RAJUK Approval No.', value: project.rajukApprovalNo },
+    { label: 'Location', value: project.location },
+  ].map((row) => ({ ...row, value: row.value ?? '—' }));
 
   // ── live countdown ──────────────────────────────────────────────────────────
   const [counters, setCounters] = useState(() =>
@@ -192,19 +251,9 @@ export default function SingleProject({
                 </Link>
 
                 <dl className="c-appear-up-in c-appear-delay-2 mt-auto grid columns-2 gap-x-[20px] max-xl:hidden">
-                  <div className="flex flex-row border-black py-[8px] xl:py-[12px]">
-                    <dt className="c-text-body w-1/2 font-medium">Land Area</dt>
-                    <dd className="c-text-body w-1/2 font-light">{project.landArea}</dd>
-                  </div>
-
-                  <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px]">
-                    <dt className="c-text-body w-1/2 font-medium">Number of Floors</dt>
-                    <dd className="c-text-body w-1/2 font-light">{project.numberOfFloors}</dd>
-                  </div>
-                  <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px]">
-                    <dt className="c-text-body w-1/2 font-medium">Total Units</dt>
-                    <dd className="c-text-body w-1/2 font-light">{project.totalUnits}</dd>
-                  </div>
+                  {specRows.map((row, i) => (
+                    <SpecRow key={row.label} label={row.label} value={row.value} first={i === 0} />
+                  ))}
                   <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px]">
                     <dt className="c-text-body w-1/2 font-medium">Brochure</dt>
                     <dd className="c-text-body w-1/2 font-light">
@@ -223,7 +272,7 @@ export default function SingleProject({
                       )}
                     </dd>
                   </div>
-                  <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px]">
+                  <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px] pb-[6px]!">
                     <dt className="c-text-body w-1/2 font-medium">Inspection Report</dt>
                     <dd className="c-text-body w-1/2 font-light">
                       {project.inspectionReports && project.inspectionReports.length > 0 ? (
@@ -260,10 +309,6 @@ export default function SingleProject({
                       )}
                     </dd>
                   </div>
-                  <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px] pb-[6px]!">
-                    <dt className="c-text-body w-1/2 font-medium">Location</dt>
-                    <dd className="c-text-body w-1/2 font-light">{project.location}</dd>
-                  </div>
                 </dl>
               </div>
 
@@ -282,17 +327,16 @@ export default function SingleProject({
 
               <div className="col-span-4 xl:hidden">
                 <dl className="c-appear-up-in c-appear-delay-2 mt-auto grid columns-2 gap-x-[20px]">
+                  {specRows.map((row, i) => (
+                    <SpecRow key={row.label} label={row.label} value={row.value} first={i === 0} />
+                  ))}
                   <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px]">
                     <dt className="c-text-body w-1/2 font-medium">Type du projet</dt>
                     <dd className="c-text-body w-1/2 pl-1.5 xl:pl-0">{project.type}</dd>
                   </div>
-                  <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px]">
+                  <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px] pb-[6px]!">
                     <dt className="c-text-body w-1/2 font-medium">Date</dt>
                     <dd className="c-text-body w-1/2 pl-1.5 xl:pl-0">{project.year}</dd>
-                  </div>
-                  <div className="flex flex-row border-t-[1px] border-black py-[8px] xl:py-[12px]">
-                    <dt className="c-text-body w-1/2 font-medium">Emplacement</dt>
-                    <dd className="c-text-body w-1/2 pl-1.5 xl:pl-0">{project.location}</dd>
                   </div>
                 </dl>
               </div>
@@ -301,26 +345,20 @@ export default function SingleProject({
 
           <div className="c-blocks">
             <section className="c-grid-container c-appear-blur-in grid" data-scroll>
-              <div className="c-safari-image-radius col-span-4 flex items-center overflow-hidden rounded-[4px] bg-current xl:col-span-12">
+              <div className="c-safari-image-radius col-span-4 flex h-[calc(100vh-100px)] w-full items-center overflow-hidden rounded-[4px] bg-current xl:col-span-12">
                 <div
-                  className="c-image is-loaded w-full -cover -lazy-load h-[110%] w-full"
+                  className="c-image is-loaded w-full -cover -lazy-load h-full w-full"
                   data-scroll="true"
                   data-scroll-speed="-0.075"
-                  style={{
-                    aspectRatio: "1.499063085571518",
-                    "--width": 2400,
-                    "--height": 1601,
-                  } as React.CSSProperties}
                 >
                   <picture className="c-image_inner flex h-full w-full">
                     <img
                       src={project.image}
-                      alt=""
-                      title=""
+                      alt={project.title}
+                      title={project.title}
                       fetchPriority="auto"
                       loading="lazy"
-                      className="c-image_img"
-
+                      className="c-image_img !h-full !w-full !object-cover"
                       width={2400}
                       height={1601}
                     />
@@ -376,6 +414,7 @@ export default function SingleProject({
           </div>
         </div>
 
+        {allProjects.length > 1 && (
         <c-full-project-card
           className="c-full-project-card block mt-[220px]"
           data-astro-cid-wipjvxqe="true"
@@ -445,18 +484,24 @@ export default function SingleProject({
                     <p className="c-text-subtitle flex w-full justify-end border-b pb-[8px]">
                       <span className="flex-grow">{nextProject.title}</span>
                       <span className="w-1 border-l"></span>
-                      <span>{String(nextProjectIndex + 1).padStart(2, '0')}</span>
+                      <ProjectArea coordinates={nextProject.coordinates} fallback={nextProject.location} />
                     </p>
-                    <p className="c-text-small pt-[8px]">
-                      <i className="mr-0.5">{nextProject.year}</i>
-                      <span className="pr-1.5 xl:pr-0">{nextProject.type}</span>
-                    </p>
+                    {(() => {
+                      const timeline = getProjectTimeline(nextProject);
+                      return (
+                        <p className="c-text-small flex w-full justify-between items-baseline pt-[8px]">
+                          <i className="not-italic">{timeline.label}</i>
+                          <span className="pr-1.5 xl:pr-0">{timeline.value}</span>
+                        </p>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>
             </div>
           </a>
         </c-full-project-card>
+        )}
       </div>
     </main>
   );

@@ -80,6 +80,10 @@ export interface Project {
   landArea: string;
   numberOfFloors: string;
   totalUnits: number;
+  apartmentSize?: string;
+  numberOfParking?: number;
+  handOverDate?: string;
+  rajukApprovalNo?: string;
   status?: 'pending' | 'active' | 'completed' | 'on-hold';
   brochure?: string;
   inspectionReports?: InspectionReport[];
@@ -114,6 +118,14 @@ export interface GalleryCard {
     number: number
     year: number
     type: string
+    status?: string
+    startDate?: string
+    location?: string
+    handOverDate?: string
+    coordinates?: {
+      lat: number
+      lng: number
+    }
   }
 }
 

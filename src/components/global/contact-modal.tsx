@@ -10,9 +10,9 @@ export default async function ContentModel() {
     console.error("Error fetching projects:", error);
   }
 
-  const ongoingProjects = projects.filter(p => p.status === 'active' && p.href);
-  const upcomingProjects = projects.filter(p => p.status === 'pending' && p.href);
-  const completedProjects = projects.filter(p => p.status === 'completed' && p.href);
+  const ongoingProjects = projects.filter(p => p.status === 'active');
+  const upcomingProjects = projects.filter(p => p.status === 'pending');
+  const completedProjects = projects.filter(p => p.status === 'completed');
 
   const ongoingCount = ongoingProjects.length;
   const upcomingCount = upcomingProjects.length;
@@ -37,23 +37,6 @@ export default async function ContentModel() {
               Ongoing ({ongoingCount})
             </span>
           </Link>
-          <div className="c-projects-modal-grid">
-            {ongoingProjects.length > 0 ? (
-              ongoingProjects.map((project) => (
-                <Link
-                  key={project._id}
-                  href={project.href}
-                  className="c-projects-modal-item"
-                >
-                  <div className="c-projects-modal-item-content">
-                    <p className="c-projects-modal-item-title text-lg">{project.title}</p>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <p className="c-projects-modal-empty">No ongoing projects</p>
-            )}
-          </div>
           </div>
         </div>
         <div className="c-site-header_contact-modal-row js-contact-stg opacity-0">
@@ -61,23 +44,6 @@ export default async function ContentModel() {
           <Link href="/projects/upcoming">
             <span id="phone-content">Upcoming ({upcomingCount})</span>
           </Link>
-          <div className="c-projects-modal-grid">
-            {upcomingProjects.length > 0 ? (
-              upcomingProjects.map((project) => (
-                <Link
-                  key={project._id}
-                  href={project.href}
-                  className="c-projects-modal-item"
-                >
-                  <div className="c-projects-modal-item-content">
-                    <p className="c-projects-modal-item-title">{project.title}</p>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <p className="c-projects-modal-empty">No upcoming projects</p>
-            )}
-          </div>
           </div>
         </div>
         <div className="c-site-header_contact-modal-row js-contact-stg opacity-0">
@@ -85,23 +51,6 @@ export default async function ContentModel() {
           <Link href="/projects/completed">
             <span id="email-content">Completed ({completedCount})</span>
           </Link>
-          <div className="c-projects-modal-grid">
-            {completedProjects.length > 0 ? (
-              completedProjects.map((project) => (
-                <Link
-                  key={project._id}
-                  href={project.href}
-                  className="c-projects-modal-item"
-                >
-                  <div className="c-projects-modal-item-content">
-                    <p className="c-projects-modal-item-title">{project.title}</p>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <p className="c-projects-modal-empty">No completed projects</p>
-            )}
-          </div>
           </div>
         </div>
         

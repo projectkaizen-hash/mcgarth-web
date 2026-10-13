@@ -66,7 +66,7 @@ export default function ApplicationForm({ jobVacancies }: ApplicationFormProps) 
   };
 
   return (
-    <section className="c-application-form" data-scroll>
+    <section id="apply-now" className="c-application-form scroll-mt-24" data-scroll>
       <div className="c-grid-container my-[80px] xl:my-[115px]">
         <h2 className="c-heading-h2 c-appear-blur-in col-span-3 mb-[92px] xl:col-span-4 xl:col-start-2 xl:mb-3">
           Apply now

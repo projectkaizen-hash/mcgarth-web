@@ -2,7 +2,11 @@
 
 import { SanityImage } from '../../lib/types';
 
-export function GalleryBlock({ images }: { images: SanityImage[] }) {
+export function GalleryBlock({ images }: { images: SanityImage[] | null }) {
+  if (!images || images.length === 0) {
+    return null;
+  }
+
   const pairs: SanityImage[][] = [];
   for (let i = 0; i < images.length; i += 2) {
     pairs.push(images.slice(i, i + 2));

@@ -84,15 +84,6 @@ export default function Header() {
                 Gallery
               </Link>
             </li>
-            <li className="c-site-header_nav-item" data-nav-id="/about-us">
-              <Link
-                href="/about-us"
-                className="c-site-header_nav-link c-underline-link after:hidden max-xl:before:bottom-[4px] max-xl:before:h-[2px]"
-              >
-                About,
-              </Link>
-            </li>
-
             <li className="c-site-header_nav-item" data-nav-id="/services">
               <Link
                 href="/services"
@@ -101,26 +92,22 @@ export default function Header() {
                 Services
               </Link>
             </li>
-            <li className="c-site-header_nav-item max-xl:hidden" data-nav-id="/career">
+            <li className="c-site-header_nav-item" data-nav-id="/career">
               <Link
                 href="/career"
-                className="c-site-header_nav-link c-underline-link"
+                className="c-site-header_nav-link c-underline-link max-xl:before:bottom-[4px] max-xl:before:h-[2px]"
               >
                 Career
               </Link>
             </li>
-
-
-
-            <li className="c-site-header_nav-item xl:hidden">
+            <li className="c-site-header_nav-item" data-nav-id="/about-us">
               <Link
-                href="/career"
-                className="c-underline-link c-site-header_nav-link max-xl:before:bottom-[4px] max-xl:before:h-[2px]"
+                href="/about-us"
+                className="c-site-header_nav-link c-underline-link after:hidden max-xl:before:bottom-[4px] max-xl:before:h-[2px]"
               >
-                Career
+                About,
               </Link>
             </li>
-
             <li className="c-site-header_nav-item" data-nav-id="/contact">
               <Link
                 href="/contact"
@@ -128,6 +115,16 @@ export default function Header() {
               >
                 Contact
               </Link>
+            </li>
+            <li className="c-site-header_nav-item max-xl:hidden">
+              <button
+                type="button"
+                className="c-underline-link c-site-header_nav-link c-theme-switcher cursor-pointer max-xl:before:bottom-[4px] max-xl:before:h-[2px]"
+                onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+                data-no-swup
+              >
+                {resolvedTheme === 'dark' ? 'Light' : 'Dark'}
+              </button>
             </li>
           </ul>
           <div className="xl:hidden" data-swup-replace="">
@@ -140,6 +137,7 @@ export default function Header() {
               {resolvedTheme === 'dark' ? 'Light' : 'Dark'}
             </button>
           </div>
+
 
         </nav>
         <ProjectsModal ref={projectsModalRef} />

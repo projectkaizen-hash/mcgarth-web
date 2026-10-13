@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { sanityClient, galleryQuery } from '@/lib/sanity'
 import { GalleryCard } from '@/lib/types'
+import { getProjectTimeline } from '@/lib/utils'
+import { ProjectArea } from "@/components/ui/project-area";
 
 export default async function Gallery() {
   const cards: GalleryCard[] = await sanityClient.fetch(galleryQuery)
@@ -93,12 +95,17 @@ export default async function Gallery() {
                               <p className="c-text-subtitle flex w-full justify-end border-b pb-[8px]">
                                 <span className="flex-grow">{card.project.title}</span>
                                 <span className="w-1 border-l"></span>
-                                <span>{String(card.project.order ?? index + 1).padStart(2, '0')}</span>
+                                <ProjectArea coordinates={card.project.coordinates} fallback={card.project.location} />
                               </p>
-                              <p className="c-text-small pt-[8px]">
-                                <i className="mr-0.5">{card.project.year}</i>
-                                <span className="pr-1.5 xl:pr-0">{card.project.type}</span>
-                              </p>
+                              {(() => {
+                                const timeline = getProjectTimeline(card.project ?? {});
+                                return (
+                                  <p className="c-text-small flex w-full justify-between items-baseline pt-[8px]">
+                                    <i className="not-italic">{timeline.label}</i>
+                                    <span className="pr-1.5 xl:pr-0">{timeline.value}</span>
+                                  </p>
+                                );
+                              })()}
                             </div>
                           </div>
                         </div>
