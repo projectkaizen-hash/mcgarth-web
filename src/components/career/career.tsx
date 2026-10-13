@@ -129,6 +129,24 @@ export default function Career() {
                           `We currently have ${jobVacancies.length} open position${jobVacancies.length > 1 ? 's' : ''} available. Join our team and contribute to building excellence in Bangladesh.`
                         )}
                       </p>
+                      <div className="c-appear-up-in c-appear-delay-3 mt-[20px] xl:mt-[40px]">
+                        <a
+                          href="#apply-now"
+                          title="Apply now"
+                          data-astro-cid-n7iexiqw="true"
+                          className="c-button c-text-cta c-button-m c-button-appear inline-block"
+                        >
+                          <span className="c-button-bg" data-astro-cid-n7iexiqw="true"></span>
+                          <span className="c-button_inner" data-astro-cid-n7iexiqw="true">
+                            <span className="c-bullet" data-astro-cid-n7iexiqw="true">
+                              <span className="c-bullet-hover" data-astro-cid-n7iexiqw="true"></span>
+                            </span>
+                            <span className="c-button_label" data-astro-cid-n7iexiqw="true">
+                              <span className="c-button_label-hover" data-astro-cid-n7iexiqw="true">Apply now</span>
+                            </span>
+                          </span>
+                        </a>
+                      </div>
                     </div>
                   </div>
 
@@ -146,10 +164,27 @@ export default function Career() {
                               {job.title}
                             </h3>
                           </div>
-                          <div className="card-rich-text mt-auto pt-[122px] xl:pt-[190px]">
+                          <div className="card-rich-text mt-auto pt-[80px] xl:pt-[120px]">
                             <p className="mb-2">{job.description}</p>
                             <p className="c-text-label">{job.location} • {job.employmentType}</p>
                             {job.salary && <p className="c-text-label mt-1">{job.salary}</p>}
+                            <div className="mt-6">
+                              <a
+                                href="#apply-now"
+                                data-astro-cid-n7iexiqw="true"
+                                className="c-button c-text-cta c-button-s c-button-appear inline-block"
+                              >
+                                <span className="c-button-bg" data-astro-cid-n7iexiqw="true"></span>
+                                <span className="c-button_inner" data-astro-cid-n7iexiqw="true">
+                                  <span className="c-bullet" data-astro-cid-n7iexiqw="true">
+                                    <span className="c-bullet-hover" data-astro-cid-n7iexiqw="true"></span>
+                                  </span>
+                                  <span className="c-button_label" data-astro-cid-n7iexiqw="true">
+                                    <span className="c-button_label-hover" data-astro-cid-n7iexiqw="true">Apply for this role</span>
+                                  </span>
+                                </span>
+                              </a>
+                            </div>
                           </div>
                         </li>
                       ))

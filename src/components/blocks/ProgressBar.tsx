@@ -25,10 +25,10 @@ interface ProgressBarProps {
 // ── Milestone config ──────────────────────────────────────────────────────────
 
 const MILESTONES = [
-  { value: 25,  key: "progress25",  label: "Foundation", phase: "Phase I"   },
-  { value: 50,  key: "progress50",  label: "Structure",  phase: "Phase II"  },
-  { value: 75,  key: "progress75",  label: "Interior",   phase: "Phase III" },
-  { value: 100, key: "progress100", label: "Handover",   phase: "Phase IV"  },
+  { value: 25,  key: "progress25",  label: "Sub Structure",   phase: "Phase I"   },
+  { value: 50,  key: "progress50",  label: "Super Structure", phase: "Phase II"  },
+  { value: 75,  key: "progress75",  label: "MEP Work",        phase: "Phase III" },
+  { value: 100, key: "progress100", label: "Finishing",       phase: "Phase IV"  },
 ] as const;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -129,25 +129,8 @@ function ImagePanel({ images, label }: { images: ProgressImage[]; label: string 
     );
   }
 
-  // ── 3 images ──────────────────────────────────────────────────────────────
-  if (count === 3) {
-    return (
-      <div className="c-grid-container !gap-y-[20px]">
-        <div className="col-span-2 xl:col-span-6">
-          <ImgTile img={images[0]} alt={`${label} — photo 1`} ratio="3/2" />
-        </div>
-        <div className="col-span-2 xl:col-span-6">
-          <ImgTile img={images[1]} alt={`${label} — photo 2`} ratio="3/2" />
-        </div>
-        <div className="col-span-4 xl:col-span-12">
-          <ImgTile img={images[2]} alt={`${label} — photo 3`} ratio="3/1" />
-        </div>
-      </div>
-    );
-  }
-
-  // ── 4+ images: paginated (4 per page) ─────────────────────────────────────
-  const PER_PAGE  = 4;
+  // ── 3+ images: paginated (2 per page) ─────────────────────────────────────
+  const PER_PAGE  = 2;
   const pageCount = Math.ceil(count / PER_PAGE);
 
   const goTo = (next: number) => {

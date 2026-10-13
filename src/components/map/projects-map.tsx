@@ -244,7 +244,7 @@ export default function ProjectsMap({ projects }: ProjectsMapProps) {
               onChange={(e) => handleFilterChange('status', e.target.value)}
               className="w-full bg-transparent text-black border border-black/30 rounded p-[12px] appearance-none cursor-pointer text-sm md:text-base"
             >
-              <option value="all">All Status</option>
+              <option value="all">Project Status</option>
               <option value="active">Ongoing</option>
               <option value="pending">Upcoming</option>
               <option value="completed">Completed</option>
@@ -261,7 +261,7 @@ export default function ProjectsMap({ projects }: ProjectsMapProps) {
               onChange={(e) => handleFilterChange('type', e.target.value)}
               className="w-full bg-transparent text-black border border-black/30 rounded p-[12px] appearance-none cursor-pointer text-sm md:text-base"
             >
-              <option value="all">All Types</option>
+              <option value="all">Project Types</option>
               {uniqueTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
               ))}
@@ -278,7 +278,7 @@ export default function ProjectsMap({ projects }: ProjectsMapProps) {
               onChange={(e) => handleFilterChange('location', e.target.value)}
               className="w-full bg-transparent text-black border border-black/30 rounded p-[12px] appearance-none cursor-pointer text-sm md:text-base"
             >
-              <option value="all">All Locations</option>
+              <option value="all">Locations</option>
               {uniqueLocations.map(location => (
                 <option key={location} value={location}>{location}</option>
               ))}

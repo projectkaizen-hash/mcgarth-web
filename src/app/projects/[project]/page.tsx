@@ -104,7 +104,7 @@ export async function generateMetadata({
   const title = project.title;
   const description =
     project.description ??
-    `${project.title} — a residential construction project by McGrath BD${
+    `${project.title} — a residential construction project by McGrath Developments Ltd${
       project.location ? ` in ${project.location}` : ""
     }.`;
 

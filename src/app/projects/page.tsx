@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/projects" },
   title: "Projects",
   description:
-    "Explore McGrath BD residential construction projects — ongoing, upcoming and completed developments.",
+    "Explore McGrath Developments Ltd residential construction projects — ongoing, upcoming and completed developments.",
 };
 
 export default function Projects() {

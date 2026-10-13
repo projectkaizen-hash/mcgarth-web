@@ -118,6 +118,14 @@ export interface GalleryCard {
     number: number
     year: number
     type: string
+    status?: string
+    startDate?: string
+    location?: string
+    handOverDate?: string
+    coordinates?: {
+      lat: number
+      lng: number
+    }
   }
 }
 

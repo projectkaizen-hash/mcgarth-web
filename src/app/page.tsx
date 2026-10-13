@@ -20,8 +20,6 @@ export default function Home() {
       <HomeContent />
       <Footer />
           <Script type="module" src="/_astro/BlockTitle.astro_astro_type_script_index_0_lang.DkQLZZMJ.js" />
-      <Script type="module" src="/_astro/RotatingImages.astro_astro_type_script_index_0_lang.BQ368rCi.js" />
-      <Script type="module" src="/_astro/BlockHomeGallery.astro_astro_type_script_index_0_lang.BwoT9FdZ.js" />
       <Script type="module" src="/_astro/InlineVideo.astro_astro_type_script_index_0_lang.DtCmFUbV.js" />
       <Script type="module" src="/_astro/BlockVideo.astro_astro_type_script_index_0_lang.itwtrYdv.js" />
 </>

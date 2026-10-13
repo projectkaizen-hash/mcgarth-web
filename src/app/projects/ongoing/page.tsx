@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/projects/ongoing" },
   title: "Ongoing Projects",
   description:
-    "McGrath BD construction projects currently in progress.",
+    "McGrath Developments Ltd construction projects currently in progress.",
 };
 
 export default function OngoingProjects() {

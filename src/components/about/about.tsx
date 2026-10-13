@@ -1,6 +1,8 @@
 
 import Link from "next/link";
 import TeamSection from "./TeamSection";
+import { getProjectTimeline } from "@/lib/utils";
+import { ProjectArea } from "@/components/ui/project-area";
 
 
 export default function About() {
@@ -578,162 +580,112 @@ export default function About() {
               </section>
             </div>
 
-            <TeamSection />
-
-            <div className="c-block-services">
-              <c-services className="c-services">
-                <div className="c-grid-container mt-[120px] items-start xl:mt-[200px]">
-                  <div
-                    className="col-span-4 grid grid-cols-subgrid xl:sticky xl:top-0 xl:left-0 xl:col-span-8 xl:pt-4"
-                    data-scroll
-                    data-scroll-offset="40%"
-                  >
-                    <div className="col-span-3 mb-[74px] self-start xl:col-span-4 xl:col-start-2 xl:mb-0">
-                      <h2 className="c-heading-h2 c-appear-blur-in">
-                        Your vision, our mission
-                      </h2>
-                    </div>
-                    <div className="c-appear-up-in c-appear-delay-1 relative col-span-2 col-start-1 mt-[5px] flex aspect-[453/725] items-center overflow-hidden rounded-lg xl:col-span-4 xl:col-start-1 xl:mt-[210px]">
-                      <div
-                        className="c-image is-loaded w-full -cover -lazy-load"
-                        style={{ ["--width" as string]: "450", ["--height" as string]: "675", aspectRatio: "0.6666666666666666" }}
-                      >
-                        <picture className="c-image_inner flex h-full w-full">
-
-                          <img
-                            src="/img/5.jpg"
-                            alt=""
-                            title=""
-                            fetchPriority="auto"
-                            loading="lazy"
-                            className="c-image_img"
-                            width={450}
-                            height={675}
-                          />
-                        </picture>
-                      </div>
-                    </div>
-                    <div className="col-span-2 col-start-3 mx-auto xl:col-span-3 xl:col-start-5 xl:mt-[210px]">
-                      <p className="c-text-body-indent c-appear-blur-in c-appear-delay-2">
-                        Every project is unique, and we make every effort to bring
-                        it to life with precision and commitment. Thanks to our
-                        expertise in project management and construction, we can
-                        offer you solutions tailored to your needs, with support
-                        every step of the way.
-                      </p>
-                      <div className="c-appear-up-in c-appear-delay-3 mt-[20px] xl:mt-[40px]">
-                        <a
-                          href="/en/services"
-                          target="_self"
-                          title="Services"
-                          data-astro-cid-n7iexiqw
-                          className="c-button c-text-cta c-button-m c-button-appear"
+            {/* Chairman's Message Section */}
+            <div className="c-block-chairman">
+              <section data-scroll>
+                <div className="c-grid-container before:bg-powder relative before:absolute before:top-0 before:right-[var(--grid-edge-xl)] before:left-[var(--grid-edge-xl)] before:h-[1px] before:content-[''] max-xl:before:hidden pt-[70px] pb-[70px] xl:pt-[110px] xl:pb-[110px]">
+                  {/* Left Column: Heading & Info */}
+                  <div className="col-span-4 xl:col-span-4 xl:col-start-2 mb-[32px] xl:mb-0">
+                    <h2 className="c-text-label">Leadership</h2>
+                    <p className="c-heading-h2 c-appear-blur-in mt-[16px] xl:mt-[24px]">
+                      Chairman&apos;s<br />Message
+                    </p>
+                    {/* Portrait Image (Desktop Left under info, or responsive) */}
+                    <div className="c-appear-up-in c-appear-delay-2 mt-[32px] xl:mt-[48px] max-w-[280px]">
+                      <div className="group relative aspect-[346/432] overflow-hidden rounded-sm bg-powder/10">
+                        <div
+                          className="c-image is-loaded w-full -cover -lazy-load h-full w-full object-cover"
+                          style={{ ["--width" as string]: "692", ["--height" as string]: "864", aspectRatio: "0.8009259259259259" }}
                         >
-                          <span className="c-button-bg" data-astro-cid-n7iexiqw></span>
-                          <span className="c-button_inner" data-astro-cid-n7iexiqw>
-                            <span className="c-bullet" data-astro-cid-n7iexiqw>
-                              <span className="c-bullet-hover" data-astro-cid-n7iexiqw></span>
-                            </span>
-                            <span className="c-button_label" data-astro-cid-n7iexiqw>
-                              <span className="c-button_label-hover" data-astro-cid-n7iexiqw>Services</span>
-                            </span>
-                          </span>
-                        </a>
+                          <picture className="c-image_inner flex h-full w-full">
+                            <img
+                              src="/img/chairman.jpg"
+                              alt="Chairman - McGrath Developments Ltd."
+                              title="Chairman"
+                              fetchPriority="auto"
+                              loading="lazy"
+                              className="c-image_img object-cover w-full h-full"
+                              width={692}
+                              height={864}
+                            />
+                          </picture>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <ul
-                    className="l:mt-[499px] col-span-4 mt-[64px] flex flex-col gap-[20px] self-start xl:col-start-9 xl:row-start-1 xl:mt-0"
-                    data-scroll
-                    data-scroll-offset="15%"
-                  >
-                    {[
-                      {
-                        num: "01",
-                        title: "New construction",
-                        delay: "c-appear-delay-1",
-                        desc: "McGrath builds homes that combine quality, innovation and durability. Each project is tailor-made to offer the optimal living environment, built to stand the test of time.",
-                      },
-                      {
-                        num: "02",
-                        title: "Complete renovation",
-                        delay: "c-appear-delay-2",
-                        desc: "Rethink your home with a complete renovation. Modernization, optimization of space and quality materials: we make your home a place to live and feel good, with expertise and know-how.",
-                      },
-                      {
-                        num: "03",
-                        title: "Extension",
-                        delay: "c-appear-delay-3",
-                        desc: "Optimize your space and comfort with a made-to-measure extension. McGrath builds extensions that integrate harmoniously with your home, for a living environment that evolves with you.",
-                      },
-                    ].map((service) => (
-                      <li
-                        key={service.num}
-                        className={`relative col-span-4 flex xl:h-full flex-col rounded-md border border-powder p-[16px] c-appear-blur-in ${service.delay}`}
-                      >
-                        <div className="c-heading-h4 border-powder relative flex flex-row items-center gap-[64px] border-b px-[32px] pt-[16px] pb-[23px]">
-                          <span className="c-heading-h4-alt after:content-['']">{service.num}</span>
-                          <h3 className="before:bg-powder before:absolute before:top-0 before:left-[90px] before:h-[54px] before:w-[1px] before:content-[''] xl:before:h-[64px]">
-                            {service.title}
-                          </h3>
-                        </div>
-                        <div className="card-rich-text mt-auto pt-[122px] xl:pt-[190px]">
-                          <p>{service.desc}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </c-services>
-            </div>
-
-            <div className="c-block-contact">
-              <c-contact
-                className="c-contact block my-[105px] xl:my-[200px]"
-                data-scroll="true"
-                data-scroll-offset="5%"
-              >
-                <div className="c-grid-container">
-                  <div className="c-appear-up-in col-span-4 xl:col-span-9 xl:col-start-4">
-                    <h2 className="c-text-label">Contact us</h2>
+                  {/* Right Column: Statement / Quote */}
+                  <div className="col-span-4 xl:col-span-6 xl:col-start-7 flex flex-col justify-center">
+                    <blockquote className="c-appear-blur-in c-appear-delay-1 space-y-4 text-black/90 dark:text-white/90">
+                      <p className="c-heading-h4 !text-[19px] xl:!text-[23px] font-light leading-relaxed">
+                        &ldquo;McGrath was built on experience, trust, and a commitment to doing things the right way.
+                      </p>
+                      <p className="c-heading-h4 !text-[19px] xl:!text-[23px] font-light leading-relaxed">
+                        Every project is a reflection of the relationships and values we have built over the years.
+                      </p>
+                      <p className="c-heading-h4 !text-[19px] xl:!text-[23px] font-light leading-relaxed">
+                        My vision is to preserve that foundation and ensure the McGrath name continues to stand for quality, integrity, and lasting value.&rdquo;
+                      </p>
+                    </blockquote>
                   </div>
                 </div>
-                <address className="c-grid-container c-heading-h2 [&_div]:border-powder mt-[37px] flex flex-col not-italic [&_div]:border-b [&_div]:py-[8px]">
-                  <div className="c-appear-up-in c-appear-delay-1 ease-in-quart hover:ease-out-quad hover:border-blue col-span-4 transition-colors duration-300 xl:col-span-9 xl:col-start-4">
-
-                    <a href="tel:019 762 47284"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ease-in-quart hover:ease-out-quad hover:text-blue col-span-4 flex w-full transition-colors duration-300"
-                    >
-                      019 762 47284
-                    </a>
-                  </div>
-                  <div className="c-appear-up-in c-appear-delay-2 ease-in-quart hover:ease-out-quad hover:border-blue col-span-4 transition-colors duration-300 xl:col-span-9 xl:col-start-4">
-                    <a
-                      href="info@mcgrathbd.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ease-in-quart hover:ease-out-quad hover:text-blue col-span-4 flex w-full transition-colors duration-300"
-                    >
-                      info@mcgrathbd.com
-                    </a>
-                  </div>
-                  <div className="c-grid-cols-subgrid c-appear-up-in c-appear-delay-3 col-span-4 grid xl:col-span-9 xl:col-start-4">
-
-                    <a href="https://maps.app.goo.gl/CCJVtn2SZoKVSzYV9"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ease-in-quart hover:ease-out-quad hover:text-blue col-span-6 transition-colors duration-300"
-                    >
-                      116 Kazi Nazrul Islam
-                      Avenue, Ramna, Dhaka-1217
-                    </a>
-                  </div>
-                </address>
-              </c-contact>
+              </section>
             </div>
+
+            {/* Managing Director's Message Section */}
+            <div className="c-block-md">
+              <section data-scroll>
+                <div className="c-grid-container before:bg-powder relative before:absolute before:top-0 before:right-[var(--grid-edge-xl)] before:left-[var(--grid-edge-xl)] before:h-[1px] before:content-[''] max-xl:before:hidden pt-[70px] pb-[70px] xl:pt-[110px] xl:pb-[110px]">
+                  {/* Left Column: Heading & Info */}
+                  <div className="col-span-4 xl:col-span-4 xl:col-start-2 mb-[32px] xl:mb-0">
+                    <h2 className="c-text-label">Leadership</h2>
+                    <p className="c-heading-h2 c-appear-blur-in mt-[16px] xl:mt-[24px]">
+                      Managing Director&apos;s<br />Message
+                    </p>
+
+                    {/* Portrait Image */}
+                    <div className="c-appear-up-in c-appear-delay-2 mt-[32px] xl:mt-[48px] max-w-[280px]">
+                      <div className="group relative aspect-[346/432] overflow-hidden rounded-sm bg-powder/10">
+                        <div
+                          className="c-image is-loaded w-full -cover -lazy-load h-full w-full object-cover"
+                          style={{ ["--width" as string]: "692", ["--height" as string]: "864", aspectRatio: "0.8009259259259259" }}
+                        >
+                          <picture className="c-image_inner flex h-full w-full">
+                            <img
+                              src="/img/md.jpeg"
+                              alt="Managing Director - McGrath Developments Ltd."
+                              title="Managing Director"
+                              fetchPriority="auto"
+                              loading="lazy"
+                              className="c-image_img object-cover w-full h-full"
+                              width={692}
+                              height={864}
+                            />
+                          </picture>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Statement / Quote */}
+                  <div className="col-span-4 xl:col-span-6 xl:col-start-7 flex flex-col justify-center">
+                    <blockquote className="c-appear-blur-in c-appear-delay-1 space-y-4 text-black/90 dark:text-white/90">
+                      <p className="c-heading-h4 !text-[19px] xl:!text-[23px] font-light leading-relaxed">
+                        &ldquo;We have inherited a strong foundation, but our responsibility is to take it further.
+                      </p>
+                      <p className="c-heading-h4 !text-[19px] xl:!text-[23px] font-light leading-relaxed">
+                        My vision is to bring a new perspective to McGrath &mdash; one that embraces innovation, modern living, and the changing needs of tomorrow.
+                      </p>
+                      <p className="c-heading-h4 !text-[19px] xl:!text-[23px] font-light leading-relaxed">
+                        We want to build not just homes, but places and a legacy that future generations can be proud of.&rdquo;
+                      </p>
+                    </blockquote>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <TeamSection />
           </div>
         </div>
 
@@ -794,12 +746,18 @@ export default function About() {
                   <div className="flex max-w-[80%] flex-col w-fit xl:w-[320px]">
                     <p className="c-text-subtitle flex w-full justify-end border-b pb-[8px]">
                       <span className="flex-grow">Jovada Garden</span>
-                      <span className="w-1 border-l"></span><span>03</span>
+                      <span className="w-1 border-l"></span>
+                      <ProjectArea fallback="Gulshan, Dhaka" />
                     </p>
-                    <p className="c-text-small pt-[8px]">
-                      <i className="mr-0.5">2020</i>
-                      <span className="pr-1.5 xl:pr-0">New House</span>
-                    </p>
+                    {(() => {
+                      const timeline = getProjectTimeline({ status: 'completed', year: 2020 });
+                      return (
+                        <p className="c-text-small flex w-full justify-between items-baseline pt-[8px]">
+                          <i className="not-italic">{timeline.label}</i>
+                          <span className="pr-1.5 xl:pr-0">{timeline.value}</span>
+                        </p>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>

@@ -5,6 +5,8 @@ import { useRef, useEffect, useState } from 'react';
 import { Project } from '@/lib/types';
 import { ProjectBlocks } from './ProjectBlocks';
 import ProgressBar from '../blocks/ProgressBar';
+import { getProjectTimeline } from '@/lib/utils';
+import { ProjectArea } from '@/components/ui/project-area';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -343,26 +345,20 @@ export default function SingleProject({
 
           <div className="c-blocks">
             <section className="c-grid-container c-appear-blur-in grid" data-scroll>
-              <div className="c-safari-image-radius col-span-4 flex items-center overflow-hidden rounded-[4px] bg-current xl:col-span-12">
+              <div className="c-safari-image-radius col-span-4 flex h-[calc(100vh-100px)] w-full items-center overflow-hidden rounded-[4px] bg-current xl:col-span-12">
                 <div
-                  className="c-image is-loaded w-full -cover -lazy-load h-[110%] w-full"
+                  className="c-image is-loaded w-full -cover -lazy-load h-full w-full"
                   data-scroll="true"
                   data-scroll-speed="-0.075"
-                  style={{
-                    aspectRatio: "1.499063085571518",
-                    "--width": 2400,
-                    "--height": 1601,
-                  } as React.CSSProperties}
                 >
                   <picture className="c-image_inner flex h-full w-full">
                     <img
                       src={project.image}
-                      alt=""
-                      title=""
+                      alt={project.title}
+                      title={project.title}
                       fetchPriority="auto"
                       loading="lazy"
-                      className="c-image_img"
-
+                      className="c-image_img !h-full !w-full !object-cover"
                       width={2400}
                       height={1601}
                     />
@@ -488,12 +484,17 @@ export default function SingleProject({
                     <p className="c-text-subtitle flex w-full justify-end border-b pb-[8px]">
                       <span className="flex-grow">{nextProject.title}</span>
                       <span className="w-1 border-l"></span>
-                      <span>{String(nextProjectIndex + 1).padStart(2, '0')}</span>
+                      <ProjectArea coordinates={nextProject.coordinates} fallback={nextProject.location} />
                     </p>
-                    <p className="c-text-small pt-[8px]">
-                      <i className="mr-0.5">{nextProject.year}</i>
-                      <span className="pr-1.5 xl:pr-0">{nextProject.type}</span>
-                    </p>
+                    {(() => {
+                      const timeline = getProjectTimeline(nextProject);
+                      return (
+                        <p className="c-text-small flex w-full justify-between items-baseline pt-[8px]">
+                          <i className="not-italic">{timeline.label}</i>
+                          <span className="pr-1.5 xl:pr-0">{timeline.value}</span>
+                        </p>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>

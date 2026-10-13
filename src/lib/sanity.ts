@@ -127,7 +127,7 @@ export const galleryQuery = `*[_type == "gallery"] | order(order asc) {
     alt,
     title
   },
-  project->{ title, slug, order, year, type }
+  project->{ title, slug, order, year, type, status, startDate, location, handOverDate, coordinates }
 }`;
 
 export const featuredGalleryImagesQuery = `*[_type == "gallery" && isFeatured == true] | order(order asc) [0...9] {
@@ -140,7 +140,11 @@ export const featuredGalleryImagesQuery = `*[_type == "gallery" && isFeatured ==
   "href": "/projects/" + project->slug.current,
   "year": project->year,
   "type": project->type,
-  "location": project->location
+  "status": project->status,
+  "startDate": project->startDate,
+  "location": project->location,
+  "handOverDate": project->handOverDate,
+  "coordinates": project->coordinates
 }`;
 
 /**
@@ -159,7 +163,11 @@ export const homeRotatingProjectsQuery = `*[_id == "homeSettings"][0]{
     "href": "/projects/" + slug.current,
     "year": year,
     "type": type,
-    "location": location
+    "status": status,
+    "startDate": startDate,
+    "location": location,
+    "handOverDate": handOverDate,
+    coordinates
   }
 }`;
 
@@ -193,6 +201,28 @@ export const projectsSummaryQuery = `*[_type == "project"] | order(order asc) {
   "width": mainImage.asset->metadata.dimensions.width,
   "height": mainImage.asset->metadata.dimensions.height,
   location,
+  handOverDate,
+  startDate,
+  coordinates,
+  order,
+  status
+}`;
+
+/** Latest 2 ongoing projects for homepage */
+export const ongoingProjectsQuery = `*[_type == "project" && status in ["pending", "active"]] | order(order asc) [0...2] {
+  _id,
+  title,
+  "href": "/projects/" + slug.current,
+  "image": mainImage.asset->url,
+  year,
+  type,
+  aspectRatio,
+  "width": mainImage.asset->metadata.dimensions.width,
+  "height": mainImage.asset->metadata.dimensions.height,
+  location,
+  handOverDate,
+  startDate,
+  coordinates,
   order,
   status
 }`;
