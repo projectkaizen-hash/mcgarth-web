@@ -132,7 +132,11 @@ export const featuredGalleryImagesQuery = `*[_type == "gallery" && isFeatured ==
     alt,
     title
   },
-  project->{ title, slug }
+  "title": project->title,
+  "href": "/projects/" + project->slug.current,
+  "year": project->year,
+  "type": project->type,
+  "location": project->location
 }`;
 
 /**
@@ -146,7 +150,12 @@ export const homeRotatingProjectsQuery = `*[_id == "homeSettings"][0]{
       "asset": { "url": mainImage.asset->url },
       "alt": title,
       "title": title
-    }
+    },
+    "title": title,
+    "href": "/projects/" + slug.current,
+    "year": year,
+    "type": type,
+    "location": location
   }
 }`;
 

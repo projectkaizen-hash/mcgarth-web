@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  featuredGalleryImagesQuery,
   homeRotatingProjectsQuery,
   portalProjectsQuery,
   projectBySlugQuery,
@@ -68,6 +69,23 @@ describe("project query integrity", () => {
     expect(homeRotatingProjectsQuery).toContain('*[_id == "homeSettings"][0]');
     expect(homeRotatingProjectsQuery).toContain("rotatingProjects[]->");
     expect(homeRotatingProjectsQuery).toContain("mainImage.asset->url");
+  });
+
+  it("rotating gallery exposes project link + hover info fields", () => {
+    expect(homeRotatingProjectsQuery).toContain(
+      '"/projects/" + slug.current',
+    );
+    expect(featuredGalleryImagesQuery).toContain(
+      '"/projects/" + project->slug.current',
+    );
+    // Both sources return the same flat keys so the gallery markup never
+    // branches on where an item came from.
+    for (const q of [homeRotatingProjectsQuery, featuredGalleryImagesQuery]) {
+      expect(q).toContain('"title"');
+      expect(q).toContain('"year"');
+      expect(q).toContain('"type"');
+      expect(q).toContain('"location"');
+    }
   });
 
   it("detail query filters by slug", () => {

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   featuredGalleryImagesQuery,
   homeRotatingProjectsQuery,
@@ -10,6 +12,13 @@ interface FeaturedImage {
     alt?: string
     title?: string
   }
+  /** Flat project fields projected by both gallery queries (null when a
+   * gallery image has no linked project). */
+  title?: string | null
+  href?: string | null
+  year?: number | null
+  type?: string | null
+  location?: string | null
 }
 
 export default async function FeaturedGallery() {
@@ -41,31 +50,72 @@ export default async function FeaturedGallery() {
           id="5fc5f307-29c4-4600-9740-d50f89d79a6e"
         >
           <div className="orbit absolute top-1/2 left-1/2 h-0 w-0">
-            {featuredImages.map((item, index) => (
-              <div
-                key={index}
-                className="image-box-container js-rotating-image absolute w-[28vw] max-w-[160px] overflow-hidden rounded-md bg-black"
-                style={{ aspectRatio: "1.499267935578331" }}
-              >
-                <div
-                  className="c-image is-loaded w-full -cover -lazy-load"
-                  style={{ "--width": 160, "--height": 107, aspectRatio: "1.4953271028037383" } as React.CSSProperties}
-                >
-                  <picture className="c-image_inner flex h-full w-full">
-                    <img
-                      src={item.image.asset.url}
-                      alt={item.image.alt ?? ''}
-                      title={item.image.title ?? ''}
-                      fetchPriority="auto"
-                      loading="lazy"
-                      className="c-image_img"
-                      width="160"
-                      height="107"
-                    />
-                  </picture>
+            {featuredImages.map((item, index) => {
+              const meta = [item.year, item.type].filter(Boolean).join(" · ");
+              const hasInfo = Boolean(item.title || meta || item.location);
+              const boxClassName =
+                "image-box-container js-rotating-image group absolute w-[28vw] max-w-[160px] overflow-hidden rounded-md bg-black";
+              const boxStyle = { aspectRatio: "1.499267935578331" };
+              const inner = (
+                <>
+                  <div
+                    className="c-image is-loaded w-full -cover -lazy-load"
+                    style={{ "--width": 160, "--height": 107, aspectRatio: "1.4953271028037383" } as React.CSSProperties}
+                  >
+                    <picture className="c-image_inner flex h-full w-full">
+                      <img
+                        src={item.image.asset.url}
+                        alt={item.image.alt ?? ''}
+                        title={item.image.title ?? ''}
+                        fetchPriority="auto"
+                        loading="lazy"
+                        className="c-image_img"
+                        width="160"
+                        height="107"
+                      />
+                    </picture>
+                  </div>
+                  {hasInfo && (
+                    <span
+                      className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-[1px] px-[8px] pb-[6px] pt-[22px] text-left opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0.45) 55%, rgba(0,0,0,0))",
+                      }}
+                    >
+                      {item.title && (
+                        <span className="truncate text-[11px] leading-[1.3] font-medium text-white">
+                          {item.title}
+                        </span>
+                      )}
+                      {meta && <span className="truncate text-[9px] leading-[1.3] text-white/85">{meta}</span>}
+                      {item.location && (
+                        <span className="truncate text-[9px] leading-[1.3] text-white/70">{item.location}</span>
+                      )}
+                    </span>
+                  )}
+                </>
+              );
+
+              if (item.href) {
+                return (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className={boxClassName}
+                    style={boxStyle}
+                    aria-label={item.title ? `View project: ${item.title}` : "View project"}
+                  >
+                    {inner}
+                  </Link>
+                );
+              }
+              return (
+                <div key={index} className={boxClassName} style={boxStyle}>
+                  {inner}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </c-rotating-images>
 
